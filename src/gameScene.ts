@@ -7,8 +7,8 @@ import { Tickable } from "./tickable";
 
 export class GameScene implements Tickable {
     public starship = new Starship(0, 0, 0, 10, 10);
-    private missiles: Missile[] = [];
-    private asteroids: Asteroid[] = [];
+    public missiles: Missile[] = [];
+    public asteroids: Asteroid[] = [];
 
     constructor(private readonly controls: Controls) {}
 

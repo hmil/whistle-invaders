@@ -35,7 +35,6 @@ export class GameLoop {
         }
 
         const newTime = (new Date()).getTime();
-
         this.scene.tick(newTime - this.lastTime);
         this.lastTime = newTime;
 
