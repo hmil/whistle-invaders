@@ -15,8 +15,8 @@ enum IMAGE_LIST {
 const raster = 64;
 const smallraster = 32;
 const backgrounds1 = [
+    [4*raster, 0],
     [4*raster, raster + (raster/2)],
-    [4*raster, raster + (raster/2) * 2],
 ];
 const backgrounds2 = [
     [4*raster, raster + (raster/2)],
@@ -65,28 +65,33 @@ export abstract class Assets {
     public static planets: ReadonlyArray<CanvasGraphObject>;
     public static asteroids: ReadonlyArray<CanvasGraphObject>;
     public static shipImage: CanvasGraphObject;
-
+    
+    static getBackground1(howMuch: number){
+        return Assets.getSomeAssets(howMuch, [...Assets.backgrounds1]);
+    }
+    static getBackground2(howMuch: number){
+        return Assets.getSomeAssets(howMuch, [...Assets.backgrounds2]);
+    }
+    static getPlanets(howMuch: number){
+        return Assets.getSomeAssets(howMuch, [...Assets.planets]);
+    }
+    static getAsteroids(howMuch: number){
+        return Assets.getSomeAssets(howMuch, [...Assets.asteroids]);
+    }
+    static getSomeAssets(howMuch: number, array: CanvasGraphObject[]): CanvasGraphObject[] {
+        return new Array(howMuch).fill(this.random(array));
+    }
+    static random(array: CanvasGraphObject[]) {
+        return array[Math.floor(Math.random() * array.length)];
+    }
     public static init() {
         Assets.shipImage = Assets.createImage(IMAGE_LIST.SHIP);
 
-        
         Assets.backgrounds1 = [
-            Assets.createBackgrounds(backgrounds1[0][0], backgrounds1[0][1], 128, 128),
-            Assets.createBackgrounds(backgrounds1[1][0], backgrounds1[1][1], 128, 128),
-            Assets.createBackgrounds(backgrounds1[0][0], backgrounds1[0][1], 128, 128),
-            Assets.createBackgrounds(backgrounds1[1][0], backgrounds1[1][1], 128, 128),
-            Assets.createBackgrounds(backgrounds1[0][0], backgrounds1[0][1], 128, 128),
-            Assets.createBackgrounds(backgrounds1[1][0], backgrounds1[1][1], 128, 128),
-            Assets.createBackgrounds(backgrounds1[0][0], backgrounds1[0][1], 128, 128),
-            Assets.createBackgrounds(backgrounds1[1][0], backgrounds1[1][1], 128, 128),
-            Assets.createBackgrounds(backgrounds1[0][0], backgrounds1[0][1], 128, 128),
-            Assets.createBackgrounds(backgrounds1[1][0], backgrounds1[1][1], 128, 128),
+            Assets.createBackgrounds(backgrounds1[0][0], backgrounds1[0][1], 120, 100),
+            Assets.createBackgrounds(backgrounds1[1][0], backgrounds1[1][1], 120, 120),
         ];
         Assets.backgrounds2 = [
-        Assets.createBackgrounds(backgrounds2[2][0], backgrounds2[2][1], 32, 32),
-        Assets.createBackgrounds(backgrounds2[3][0], backgrounds2[3][1], 32, 32),
-        Assets.createBackgrounds(backgrounds2[4][0], backgrounds2[4][1], 32, 32),
-        Assets.createBackgrounds(backgrounds2[5][0], backgrounds2[5][1], 32, 32),
         Assets.createBackgrounds(backgrounds2[2][0], backgrounds2[2][1], 32, 32),
         Assets.createBackgrounds(backgrounds2[3][0], backgrounds2[3][1], 32, 32),
         Assets.createBackgrounds(backgrounds2[4][0], backgrounds2[4][1], 32, 32),
