@@ -1,23 +1,63 @@
+import { World } from './world';
 import { Assets } from './assets';
 import { GameScene } from './gameScene';
 
 export class Graphics {
-    ctx: CanvasRenderingContext2D;
+    private readonly ctx: CanvasRenderingContext2D;
+    private readonly canvas: HTMLCanvasElement;
     
     time: number = new Date().getTime();
     offset: number = 0;
    
     constructor(
             private readonly gameScene: GameScene) {
-        const canvas = document.getElementById('screen') as HTMLCanvasElement;
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        const context = canvas.getContext('2d');
+        this.canvas = document.getElementById('screen') as HTMLCanvasElement;
+        const context = this.canvas.getContext('2d');
 
         if (context == null) {
             throw new Error("Your browser doesn't support canvas");
         }
         this.ctx = context;
+
+        window.addEventListener('resize', () => this.initTransforms(), {
+            passive: true
+        });
+        this.initTransforms();
+    }
+
+    /**
+     * Initializes the canvas resolution and the screen space transform.
+     */
+    private initTransforms() {
+        const pixelRatio = window.devicePixelRatio;
+        const width = window.innerWidth * pixelRatio;
+        const height = window.innerHeight * pixelRatio;
+
+        this.ctx.resetTransform();
+
+        // Step 1: Address high DPI display scaling
+        this.canvas.width = width;
+        this.canvas.height = height;
+        this.ctx.scale(pixelRatio, pixelRatio);
+
+        // Step 2: Address scene scaling
+        // Figure out if we are height-bound or width-bound
+        const heightRatio = window.innerHeight / World.HEIGHT;
+        const widthRatio = window.innerWidth / World.WIDTH;
+        if (heightRatio < widthRatio) {
+            // Fit to height
+            this.ctx.scale(heightRatio, heightRatio);
+            // Center horizontally
+            this.ctx.translate((window.innerWidth - heightRatio * World.WIDTH) / 2, 0);
+        } else {
+            // Fit to width
+            this.ctx.scale(widthRatio, widthRatio);
+            // Center vertically
+            this.ctx.translate(0, (window.innerHeight - widthRatio * World.HEIGHT) / 2);
+        }
+
+        // Disable smoothing because we use pixel art. Pixel art doesn't need to be smoothed
+        this.ctx.imageSmoothingEnabled = false;
     }
 
     updateGraphics = (time: number) => {
