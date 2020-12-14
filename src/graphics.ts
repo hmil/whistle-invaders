@@ -8,6 +8,7 @@ export class Graphics {
     shipImage: CanvasGraphObject;
     time: number = new Date().getTime();
     offset: number = 0;
+    backgroundObjects: [CanvasGraphObject, number, number][] = [];
    
     constructor(private readonly gameScene: GameScene) {
         const canvas = document.getElementById('screen') as HTMLCanvasElement;
@@ -37,9 +38,10 @@ export class Graphics {
     }
 
     updateGraphics = (time: number) => {
-        const offset = this.calculateBackgroundParalax(time);
         this.drawCanvasScene();
         if (this.ctx) {
+            this.calculateBackgroundParallax(time);
+            this.drawParallaxBackground(this.ctx);
             this.drawShip(this.gameScene.starship.x, this.gameScene.starship.y);
             // this.gameScene.asteroids.forEach(a => Assets.drawEntity(this.asteroids[0], a.x, a.y, this.ctx))
             this.drawBackground(this.ctx);
@@ -70,16 +72,36 @@ export class Graphics {
         this.clear();
     }
 
-    calculateBackgroundParalax(newTimeStamp: number) {
-        const oneSecond = 1000;
+    calculateBackgroundParallax(newTimeStamp: number) {
+        const oneSecond = 50;
         if(this.time + oneSecond < newTimeStamp) {
             this.time = newTimeStamp;
             this.offset += 1;
         }
     }
-    private drawPalaxBackground(ctx: CanvasRenderingContext2D) {
-        // Assets.drawEntity()
-        // Assets.drawEntity()
+    private drawParallaxBackground(ctx: CanvasRenderingContext2D) {
+        if(this.backgroundObjects.length == 0) {
+            this.backgroundObjects = [
+                [this.planets[0], window.innerWidth, Math.random() * 600], 
+                [this.planets[1], window.innerWidth, Math.random() * 600], 
+                [this.planets[2], window.innerWidth, Math.random() * 600], 
+                [this.planets[3], window.innerWidth, Math.random() * 600]
+            ];
+        }
+
+        const offsetInPixel = this.offset * 10;
+        // draw
+        this.backgroundObjects = this.backgroundObjects.map( ([p, x, y])=> {
+            const pos = window.innerWidth - offsetInPixel;
+            Assets.drawEntity(p, pos, y, ctx);
+            return [p, pos, y];
+        })
+        this.backgroundObjects = this.backgroundObjects.filter(([p, x]) => x < 0);
+        
+        if(this.backgroundObjects.length < 5) {
+            // this.backgroundObjects.push([this.planets[3], window.innerWidth, Math.random() * 600]);
+        }
+        
     }
 
     drawShip(x: number, y: number) {
