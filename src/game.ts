@@ -46,6 +46,6 @@ export class GameLoop {
         // TODO: Update physics
 
         // TODO: Update graphics
-        // this.updateGraphics();
+        this.graphics.updateGraphics();
     }
 }
