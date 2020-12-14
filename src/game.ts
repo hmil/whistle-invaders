@@ -16,7 +16,7 @@ export class GameLoop {
 
         // TODO: for debug only, remove and handle fire somewhere else
         this.eventBus.on('fire', () => console.log('pew!'));
-        this.graphics = new Graphics();
+        this.graphics = new Graphics(scene);
         this.lastTime = (new Date()).getTime();
     }
 

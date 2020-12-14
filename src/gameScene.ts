@@ -6,7 +6,7 @@ import { Starship } from "./entities/starship";
 import { Tickable } from "./tickable";
 
 export class GameScene implements Tickable {
-    private starship = new Starship(0, 0, 1, 10, 10);
+    public starship = new Starship(0, 0, 1, 10, 10);
     private missiles: Missile[] = [];
     private asteroids: Asteroid[] = [];
 

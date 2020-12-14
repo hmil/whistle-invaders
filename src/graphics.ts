@@ -1,15 +1,16 @@
+import { GameScene } from 'gameScene';
 import { createTextChangeRange } from 'typescript';
 
 export class Graphics {
     ctx: CanvasRenderingContext2D | null = null;
    
-    constructor() {
+    constructor(private readonly gameScene: GameScene) {
        
     }
 
     updateGraphics = () => {
         this.drawCanvasScene();
-        this.drawShip();
+        this.drawShip(this.gameScene.starship.x, this.gameScene.starship.y);
     }
 
     private clear () {
@@ -29,11 +30,11 @@ export class Graphics {
             return;
         }
     }
-    drawShip(x = 100, y = 100) {
+    drawShip(x: number, y: number) {
         // this.clear();
         const shipImage = createImage(IMAGE_LIST.SHIP);
         if(this.ctx) {
-            this.ctx.drawImage(shipImage, 0, 0, 30, 60);
+            this.ctx.drawImage(shipImage, x, y, 30, 60);
         }
     }
 }
