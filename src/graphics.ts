@@ -114,25 +114,26 @@ export class Graphics {
     }
 
     private layerBackground(ctx: CanvasRenderingContext2D) {
-        this.backgroundObjectsLvl3 = this.drawParallaxBackground(ctx, this.backgroundObjectsLvl3, 1);
-        this.backgroundObjectsLvl2 = this.drawParallaxBackground(ctx, this.backgroundObjectsLvl2, 6);
-        this.backgroundObjectsLvl1 = this.drawParallaxBackground(ctx, this.backgroundObjectsLvl1, 20);
+        this.backgroundObjectsLvl3 = this.drawParallaxBackground(ctx, this.backgroundObjectsLvl3, 1, 
+            [...Assets.backgrounds1]);
+        this.backgroundObjectsLvl2 = this.drawParallaxBackground(ctx, this.backgroundObjectsLvl2, 6, [...Assets.backgrounds2]);
+        // this.backgroundObjectsLvl1 = this.drawParallaxBackground(ctx, this.backgroundObjectsLvl1, 20, [...Assets.backgrounds]);
     }
 
-    private drawParallaxBackground(ctx: CanvasRenderingContext2D, objectList: BackgroundObject[], speed: number): BackgroundObject[] {
+    private drawParallaxBackground(ctx: CanvasRenderingContext2D, objectList: BackgroundObject[], speed: number, assets: CanvasGraphObject[]): BackgroundObject[] {
 
         if(objectList.length == 0) {
             return [
-                [Assets.planets[0], World.WIDTH - Math.random() * 1200, Math.random() * World.HEIGHT, 0], 
-                [Assets.planets[1], World.WIDTH - Math.random() * 1200, Math.random() * World.HEIGHT, 0], 
-                [Assets.planets[2], World.WIDTH - Math.random() * 1200, Math.random() * World.HEIGHT, 0], 
-                [Assets.planets[3], World.WIDTH - Math.random() * 1200, Math.random() * World.HEIGHT, 0]
+                [assets[0], World.WIDTH - Math.random() * 1200, Math.random() * World.HEIGHT, 0], 
+                [assets[1], World.WIDTH - Math.random() * 1200, Math.random() * World.HEIGHT, 0], 
+                [assets[2], World.WIDTH - Math.random() * 1200, Math.random() * World.HEIGHT, 0], 
+                [assets[3], World.WIDTH - Math.random() * 1200, Math.random() * World.HEIGHT, 0]
             ];
         }
         
        
         const drawAndMap = (speed: number) => ( [p, x, y, offset]: BackgroundObject ): BackgroundObject => {
-            const pos = window.innerWidth - x - (offset * speed);
+            const pos = World.WIDTH - x - (offset * speed);
             Assets.drawEntity(p, pos, y, ctx);
             return [p, x, y, offset];
         };
@@ -140,12 +141,12 @@ export class Graphics {
         let newobjectList = objectList.map(drawAndMap(speed));
         
         // remove stuff out of canvas
-        newobjectList = newobjectList.filter(([p, x, y, offset]) => window.innerWidth - x - offset > -100);
+        newobjectList = newobjectList.filter(([p, x, y, offset]) => World.WIDTH - x - offset > -100);
         
         // push new if to less
         if(newobjectList.length < 5) {
             console.log('push');
-            // newobjectList.push([Assets.planets[0], window.innerWidth, Math.random() * 600, 0]);
+            newobjectList.push([assets[3], World.WIDTH + 100, Math.random() * World.HEIGHT, speed]);
         }
         return newobjectList;
         
