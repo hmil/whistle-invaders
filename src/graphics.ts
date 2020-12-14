@@ -114,13 +114,13 @@ export class Graphics {
     }
 
     private layerBackground(ctx: CanvasRenderingContext2D) {
-        this.backgroundObjectsLvl3 = this.drawParallaxBackground(ctx, this.backgroundObjectsLvl3, 1, () => Assets.getBackground1(10));
-        this.backgroundObjectsLvl2 = this.drawParallaxBackground(ctx, this.backgroundObjectsLvl2, 4, () => Assets.getBackground2(10));
-        this.backgroundObjectsLvl1 = this.drawParallaxBackground(ctx, this.backgroundObjectsLvl1, 8, () => Assets.getPlanets(10));
+        this.backgroundObjectsLvl3 = this.drawParallaxBackground(ctx, this.backgroundObjectsLvl3, 1, () => Assets.getBackground1(4));
+        this.backgroundObjectsLvl2 = this.drawParallaxBackground(ctx, this.backgroundObjectsLvl2, 4, () => Assets.getBackground2(40));
+        this.backgroundObjectsLvl1 = this.drawParallaxBackground(ctx, this.backgroundObjectsLvl1, 8, () => Assets.getPlanets(15));
     }
 
     private drawParallaxBackground(ctx: CanvasRenderingContext2D, objectList: BackgroundObject[], speed: number, assets: () => CanvasGraphObject[]): BackgroundObject[] {
-
+        
         if(objectList.length == 0) {
             return assets().map(e => {
                 return [e, World.WIDTH - Math.random() * 1200, Math.random() * World.HEIGHT, 0]
@@ -135,17 +135,16 @@ export class Graphics {
         };
 
         let newobjectList = objectList.map(drawAndMap(speed));
-        
+        const originalLength = objectList.length;
         // remove stuff out of canvas
         newobjectList = newobjectList.filter(([p, x, y, offset]) => World.WIDTH - x - offset > -100);
         
         // push new if to less
-        if(newobjectList.length < 5) {
-            // console.log('push');
-            // const asdads = assets().map(e => [e, World.WIDTH - Math.random() * 1200, Math.random() * World.HEIGHT, 0]);
-            // newobjectList.push(asdads);
+        if (newobjectList.length < originalLength) {
+            // const newStuff =  assets().map(e =>  { return [e, World.WIDTH, Math.random() * World.HEIGHT, 0]});
+            // return [...newobjectList, ...newStuff];
+
         }
         return newobjectList;
-        
     }
 }
