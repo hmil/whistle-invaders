@@ -2,7 +2,8 @@ import { clamp } from "../utils";
 import { Asteroid } from "./asteroid";
 import { Entity } from "./entity";
 
-export class Starship implements Entity {
+export class Starship implements Entity<'starship'> {
+    public readonly type = 'starship';
     public x: number;
     public y: number;
     public speedX = null;

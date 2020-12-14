@@ -12,7 +12,7 @@ function main() {
         audioController.init();
     });
     const controls = new Controls(eventBus, audioController);
-    const scene = new GameScene(controls);
+    const scene = new GameScene(eventBus, controls);
     const level = new TutorialLevel(eventBus, scene);
     const game = new GameLoop(eventBus, controls, scene, level);
     game.start();

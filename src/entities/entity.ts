@@ -1,6 +1,7 @@
 import { Tickable } from "../tickable";
 
-export interface Entity extends Tickable {
+export interface Entity<T extends string = string> extends Tickable {
+    type: T;
     x: number;
     y: number;
     speedX: number | null;

@@ -1,6 +1,7 @@
 import { Entity } from "./entity";
 
-export class Missile implements Entity {
+export class Missile implements Entity<'missile'> {
+    public readonly type = 'missile';
     public x: number;
     public y: number;
     public speedX: number;
@@ -8,12 +9,12 @@ export class Missile implements Entity {
     public xSize: number;
     public ySize: number;
 
-    constructor(x: number, y: number, speedX: number, xSize: number, ySzie: number) {
+    constructor(x: number, y: number, speedX: number) {
         this.x = x;
         this.y = y;
         this.speedX = speedX;
-        this.xSize = xSize;
-        this.ySize = ySzie;
+        this.xSize = 10;
+        this.ySize = 2;
     }
 
     public tick(deltaTime: number): void {
