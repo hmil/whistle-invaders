@@ -1,8 +1,9 @@
+import { Assets } from "../assets";
 import { clamp } from "../utils";
-import { Asteroid } from "./asteroid";
 import { Entity } from "./entity";
 
-export class Starship implements Entity {
+export class Starship implements Entity<'starship'> {
+    public readonly type = 'starship';
     public x: number;
     public y: number;
     public speedX = null;
@@ -29,7 +30,7 @@ export class Starship implements Entity {
         this.y = clamp(this.speedY * deltaTime + this.y, 0, 1000); // TODO: WORLD_HEIGHT
     }
 
-    public asteroidHit(asteroid: Asteroid): void {
-        
+    public draw(ctx: CanvasRenderingContext2D) {
+        Assets.drawEntity(Assets.planets[0], 100, 100, ctx);
     }
 }

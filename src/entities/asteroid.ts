@@ -1,7 +1,9 @@
-import { Entity } from "./entity";
+import { Assets } from "../assets";
+import { drawBoundingBox, Entity } from "./entity";
 import { Missile } from "./missile";
 
-export class Asteroid implements Entity {
+export class Asteroid implements Entity<'asteroid'> {
+    public readonly type = 'asteroid';
     public x: number;
     public y: number;
     public speedX: number;
@@ -27,5 +29,10 @@ export class Asteroid implements Entity {
 
     public starshipHit(): void {
         
+    }
+
+    public draw(ctx: CanvasRenderingContext2D) {
+        Assets.drawEntity(Assets.asteroids[1], this.x, this.y, ctx);
+        drawBoundingBox(ctx, this);
     }
 }

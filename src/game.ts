@@ -1,31 +1,34 @@
 import { Graphics } from './graphics';
 import { Controls } from "./controls";
 import { EventBus } from "./events";
-import { GameScene } from 'gameScene';
+import { GameScene } from './gameScene';
+import { GameLevel } from './levels/game-level';
 
 export class GameLoop {
 
     private stopped = true;
-    graphics: Graphics;
     private lastTime: number;
         
     constructor(
+            private readonly graphics: Graphics,
             private readonly eventBus: EventBus,
             private readonly controls: Controls,
-            private readonly scene: GameScene) {
+            private readonly scene: GameScene,
+            private readonly level: GameLevel) {
 
         // TODO: for debug only, remove and handle fire somewhere else
         this.eventBus.on('fire', () => console.log('pew!'));
-        this.graphics = new Graphics(scene);
         this.lastTime = (new Date()).getTime();
     }
 
     stop() {
+        this.level.unload();
         this.stopped = true;
     }
 
     start() {
         this.stopped = false;
+        this.level.load();
         this.loop();
     }
 
@@ -35,16 +38,12 @@ export class GameLoop {
         }
 
         const newTime = (new Date()).getTime();
+
         this.scene.tick(newTime - this.lastTime);
-        this.lastTime = newTime;
-
-        requestAnimationFrame(this.loop);
-
-        console.log('throttle: ' + this.controls.getCurrentControls().engineThrottle); 
-
-        // TODO: Update physics
-
-        // TODO: Update graphics
+        this.level.tick();
         this.graphics.updateGraphics(newTime);
+
+        this.lastTime = newTime;
+        requestAnimationFrame(this.loop);
     }
 }
