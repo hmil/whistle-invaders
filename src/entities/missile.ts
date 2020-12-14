@@ -15,8 +15,8 @@ export class Missile extends Entity<'missile'> {
         this.x = x;
         this.y = y;
         this.speedX = speedX;
-        this.xSize = 40;
-        this.ySize = 40;
+        this.xSize = 35;
+        this.ySize = 20;
     }
 
     public tick(deltaTime: number): void {
@@ -24,7 +24,7 @@ export class Missile extends Entity<'missile'> {
     }
 
     public draw(ctx: CanvasRenderingContext2D) {
-        Assets.drawEntity(Assets.asteroids[0], this.x, this.y, ctx);
-        super.draw(ctx);
+        Assets.drawEntity(Assets.missileImage, this.x, this.y, ctx);
+        drawBoundingBox(ctx, this);
     }
 }

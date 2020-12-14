@@ -11,19 +11,21 @@ enum IMAGE_LIST {
     SHIP = "images/ship.png",
     PLANETS = "images/planets.png",
     ELON = "images/ship.png",
+    MISSILE = "images/spaceMissiles_001.png",
 }
 const raster = 64;
 const smallraster = 32;
-const backgrounds = [
+const backgrounds1 = [
     [4*raster, raster + (raster/2)],
     [4*raster, raster + (raster/2) * 2],
+];
+const backgrounds2 = [
     [4*raster, raster + (raster/2)],
     [4*raster, raster + (raster/2) * 2],
-    [4*raster, raster + (raster/2)],
-    [4*raster, raster + (raster/2) * 2],
-    [4*raster, raster + (raster/2)],
-    [4*raster, raster + (raster/2) * 2],
-    
+    [5*smallraster, smallraster * 7],
+    [6*smallraster, smallraster * 7],
+    [7*smallraster, smallraster * 7],
+    [8*smallraster, smallraster * 7],
 ];
 const planets = [
     [0, 0],
@@ -59,21 +61,39 @@ const asteroids = [
 
 export abstract class Assets {
 
-    public static backgrounds: ReadonlyArray<CanvasGraphObject>;
+    public static backgrounds1: ReadonlyArray<CanvasGraphObject>;
+    public static backgrounds2: ReadonlyArray<CanvasGraphObject>;
     public static planets: ReadonlyArray<CanvasGraphObject>;
     public static asteroids: ReadonlyArray<CanvasGraphObject>;
     public static shipImage: CanvasGraphObject;
+    public static missileImage: CanvasGraphObject;
 
     public static init() {
         Assets.shipImage = Assets.createImage(IMAGE_LIST.SHIP);
 
-        Assets.backgrounds = [
-            Assets.createBackgrounds(backgrounds[0][0], backgrounds[0][1]),
-            Assets.createBackgrounds(backgrounds[1][0], backgrounds[1][1]),
-            Assets.createBackgrounds(backgrounds[1][0], backgrounds[1][1]),
-            Assets.createBackgrounds(backgrounds[1][0], backgrounds[1][1]),
-            Assets.createBackgrounds(backgrounds[1][0], backgrounds[1][1]),
-            Assets.createBackgrounds(backgrounds[2][0], backgrounds[2][1]),
+        Assets.missileImage = Assets.createImage(IMAGE_LIST.MISSILE, 20, 35);
+        
+        Assets.backgrounds1 = [
+            Assets.createBackgrounds(backgrounds1[0][0], backgrounds1[0][1], 128, 128),
+            Assets.createBackgrounds(backgrounds1[1][0], backgrounds1[1][1], 128, 128),
+            Assets.createBackgrounds(backgrounds1[0][0], backgrounds1[0][1], 128, 128),
+            Assets.createBackgrounds(backgrounds1[1][0], backgrounds1[1][1], 128, 128),
+            Assets.createBackgrounds(backgrounds1[0][0], backgrounds1[0][1], 128, 128),
+            Assets.createBackgrounds(backgrounds1[1][0], backgrounds1[1][1], 128, 128),
+            Assets.createBackgrounds(backgrounds1[0][0], backgrounds1[0][1], 128, 128),
+            Assets.createBackgrounds(backgrounds1[1][0], backgrounds1[1][1], 128, 128),
+            Assets.createBackgrounds(backgrounds1[0][0], backgrounds1[0][1], 128, 128),
+            Assets.createBackgrounds(backgrounds1[1][0], backgrounds1[1][1], 128, 128),
+        ];
+        Assets.backgrounds2 = [
+        Assets.createBackgrounds(backgrounds2[2][0], backgrounds2[2][1], 32, 32),
+        Assets.createBackgrounds(backgrounds2[3][0], backgrounds2[3][1], 32, 32),
+        Assets.createBackgrounds(backgrounds2[4][0], backgrounds2[4][1], 32, 32),
+        Assets.createBackgrounds(backgrounds2[5][0], backgrounds2[5][1], 32, 32),
+        Assets.createBackgrounds(backgrounds2[2][0], backgrounds2[2][1], 32, 32),
+        Assets.createBackgrounds(backgrounds2[3][0], backgrounds2[3][1], 32, 32),
+        Assets.createBackgrounds(backgrounds2[4][0], backgrounds2[4][1], 32, 32),
+        Assets.createBackgrounds(backgrounds2[5][0], backgrounds2[5][1], 32, 32),
         ];
         Assets.planets = [
             Assets.createPlanet(planets[0][0], planets[0][1]),
@@ -92,17 +112,17 @@ export abstract class Assets {
     }
 
 
-    private static createImage(image: IMAGE_LIST = IMAGE_LIST.SHIP): CanvasGraphObject {
+    private static createImage(image: IMAGE_LIST = IMAGE_LIST.SHIP, width: number = 30, height: number = 60): CanvasGraphObject {
         const shipImage = new Image();
         shipImage.src = image;
-        return {image: shipImage, width: 30, height: 60};
+        return {image: shipImage, width: width, height: height};
     }
 
-    private static createBackgrounds(posx: number, posy: number): CanvasGraphObject {
+    private static createBackgrounds(posx: number, posy: number, w: number, h: number, ): CanvasGraphObject {
         const image: IMAGE_LIST = IMAGE_LIST.PLANETS
         const img = new Image();
         img.src = image;
-        return {image: img, width: 64, height: 64, posx, posy};
+        return {image: img, width: w, height: h, posx, posy};
     }
     private static createPlanet(posx: number, posy: number): CanvasGraphObject {
         const image: IMAGE_LIST = IMAGE_LIST.PLANETS
