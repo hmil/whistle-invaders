@@ -20,6 +20,10 @@ export class Starship implements Entity {
     public tick(deltaTime: number): void {
         if (this.moveDirection) {
             this.y = (this.moveDirection === "UP" ? -1 : 1) * this.speedY * deltaTime + this.y;
+            if (this.y < 0) {
+                this.y = 0;
+            }
         }
+        console.log("Starship y pos: " + this.y);
     }
 }
