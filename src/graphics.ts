@@ -1,11 +1,22 @@
 import { GameScene } from 'gameScene';
-import { createTextChangeRange } from 'typescript';
 
 export class Graphics {
     ctx: CanvasRenderingContext2D | null = null;
+
+    private readonly shipImage: HTMLImageElement;
    
     constructor(private readonly gameScene: GameScene) {
-       
+        const canvas = document.getElementById('screen') as HTMLCanvasElement;
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        this.ctx = canvas.getContext('2d');
+
+        if (this.ctx == null) {
+            throw new Error("Your browser doesn't support canvas");
+        }
+
+        this.shipImage = createImage(IMAGE_LIST.SHIP);
     }
 
     updateGraphics = () => {
@@ -15,26 +26,15 @@ export class Graphics {
 
     private clear () {
         this.ctx!.clearRect(0, 0, window.innerWidth, window.innerHeight);
-
     }
+
     private drawCanvasScene() {
-        console.log('Hello');
-        const canvas = document.getElementById('screen') as HTMLCanvasElement;
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-
-        this.ctx = canvas.getContext('2d');
-
-        if (this.ctx == null) {
-            document.body.innerHTML = "Your browser doesn't support canvas";
-            return;
-        }
+        this.clear();
     }
+
     drawShip(x: number, y: number) {
-        // this.clear();
-        const shipImage = createImage(IMAGE_LIST.SHIP);
         if(this.ctx) {
-            this.ctx.drawImage(shipImage, x, y, 30, 60);
+            this.ctx.drawImage(this.shipImage, x, y, 30, 60);
         }
     }
 }
