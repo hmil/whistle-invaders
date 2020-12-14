@@ -1,3 +1,4 @@
+import { Asteroid } from "./asteroid";
 import { Entity } from "./entity";
 
 export class Starship implements Entity {
@@ -25,5 +26,9 @@ export class Starship implements Entity {
             }
         }
         console.log("Starship y pos: " + this.y);
+    }
+
+    public asteroidHit(asteroid: Asteroid): void {
+        
     }
 }

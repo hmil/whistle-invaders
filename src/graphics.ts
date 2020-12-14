@@ -1,17 +1,19 @@
+import { GameScene } from 'gameScene';
 import { createTextChangeRange } from 'typescript';
 
 export class Graphics {
     ctx: CanvasRenderingContext2D | null = null;
    
-    constructor() {
+    constructor(private readonly gameScene: GameScene) {
        
     }
 
     updateGraphics = () => {
         this.drawCanvasScene();
         if(this.ctx) {
-            this.drawShip();
-            drawPlanet(1, 100, 100, this.ctx)
+            this.drawShip(this.gameScene.starship.x, this.gameScene.starship.y);
+            drawPlanet(1, 100, 100, this.ctx);
+            drawPlanet(2, 300, 500, this.ctx);
         }
     }
 
@@ -32,10 +34,11 @@ export class Graphics {
             return;
         }
     }
-    drawShip(x = 100, y = 100) {
-        const ship = createImage(IMAGE_LIST.SHIP);
+    drawShip(x: number, y: number) {
+        // this.clear();
+        const shipImage = createImage(IMAGE_LIST.SHIP);
         if(this.ctx) {
-            this.ctx.drawImage(ship.image, 0, 0, ship.width, ship.height);
+            this.ctx.drawImage(shipImage.image, x, y, 30, 60);
         }
     }
 }
@@ -69,14 +72,14 @@ const Planets = [
     [2* raster, 3*raster],
     [2* raster, 4*raster],
 ]
-const createPlanet = (number: 1): CanvasGraphObject => {
+const createPlanet = (number: number): CanvasGraphObject => {
     const image: IMAGE_LIST = IMAGE_LIST.PLANETS
     const shipImage = new Image();
     shipImage.src = image;
     return {image: shipImage, width: 64, height: 64};
 }
 
-const drawPlanet = (whichPlanet: 1, x: number, y:number, ctx: CanvasRenderingContext2D): void => {
+const drawPlanet = (whichPlanet: number, x: number, y:number, ctx: CanvasRenderingContext2D): void => {
     const planet = createPlanet(whichPlanet);
     ctx.drawImage(planet.image, Planets[whichPlanet][0], Planets[whichPlanet][1], planet.width, planet.height, x,y, planet.width, planet.height);
 }
