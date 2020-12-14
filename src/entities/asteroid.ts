@@ -1,3 +1,4 @@
+import { Assets } from "../assets";
 import { Entity } from "./entity";
 import { Missile } from "./missile";
 
@@ -28,5 +29,9 @@ export class Asteroid implements Entity<'asteroid'> {
 
     public starshipHit(): void {
         
+    }
+
+    public draw(ctx: CanvasRenderingContext2D) {
+        Assets.drawEntity(Assets.planets[0], 100, 100, ctx);
     }
 }

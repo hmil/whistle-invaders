@@ -1,3 +1,4 @@
+import { Assets } from "../assets";
 import { Entity } from "./entity";
 
 export class Missile implements Entity<'missile'> {
@@ -19,5 +20,9 @@ export class Missile implements Entity<'missile'> {
 
     public tick(deltaTime: number): void {
         this.x = this.x + deltaTime * this.speedX;
+    }
+
+    public draw(ctx: CanvasRenderingContext2D) {
+        Assets.drawEntity(Assets.planets[0], 100, 100, ctx);
     }
 }

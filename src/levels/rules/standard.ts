@@ -1,6 +1,6 @@
-import { Missile } from "../../entities/missile";
-import { EventBus } from "../../events";
-import { GameScene } from "../../gameScene";
+import { Missile } from '../../entities/missile';
+import { EventBus } from '../../events';
+import { GameScene } from '../../gameScene';
 
 export function standardRules(eventBus: EventBus, scene: GameScene) {
     fireMissileRule(eventBus, scene);

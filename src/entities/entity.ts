@@ -8,4 +8,6 @@ export interface Entity<T extends string = string> extends Tickable {
     speedY: number | null;
     xSize: number;
     ySize: number;
+
+    draw(ctx: CanvasRenderingContext2D, x: number, y: number): void;
 }

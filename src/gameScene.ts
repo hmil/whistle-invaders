@@ -5,6 +5,7 @@ import { Starship } from "./entities/starship";
 import { Tickable } from "./tickable";
 import { Entities } from "./entities";
 import { EventBus } from "./events";
+import { Assets } from "assets";
 
 export class GameScene implements Tickable {
     public readonly starship = new Starship(0, 0, 0, 10, 10);
@@ -14,13 +15,14 @@ export class GameScene implements Tickable {
 
     constructor(
         private readonly eventBus: EventBus,
-        private readonly controls: Controls) {}
+        private readonly controls: Controls) {
+            this.entities.add(this.starship);
+    }
 
     public tick(deltaTime: number): void {
         this.world.tick(deltaTime);
         this.starship.throttle = this.controls.getCurrentControls().engineThrottle;
 
-        this.starship.tick(deltaTime);
         this.entities.forEach(x => x.tick(deltaTime));
         this.handleCollisions();
     }

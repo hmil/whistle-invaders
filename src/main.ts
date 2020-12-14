@@ -1,11 +1,14 @@
-import { GameLoop } from "./game";
-import { EventBus } from "./events";
-import { Controls } from "./controls";
-import { AudioController } from "./audio-controller";
-import { GameScene } from "./gameScene";
-import { TutorialLevel } from "./levels/tutorial";
+import { Assets } from './assets';
+import { AudioController } from './audio-controller';
+import { Controls } from './controls';
+import { EventBus } from './events';
+import { GameLoop } from './game';
+import { GameScene } from './gameScene';
+import { Graphics } from './graphics';
+import { TutorialLevel } from './levels/tutorial';
 
 function main() {
+    Assets.init();
     const eventBus = new EventBus();
     const audioController = new AudioController(eventBus);
     window.addEventListener('click', () => {
@@ -13,8 +16,9 @@ function main() {
     });
     const controls = new Controls(eventBus, audioController);
     const scene = new GameScene(eventBus, controls);
+    const graphics = new Graphics(scene);
     const level = new TutorialLevel(eventBus, scene);
-    const game = new GameLoop(eventBus, controls, scene, level);
+    const game = new GameLoop(graphics, eventBus, controls, scene, level);
     game.start();
 }
 
