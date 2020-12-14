@@ -9,7 +9,10 @@ export class Graphics {
 
     updateGraphics = () => {
         this.drawCanvasScene();
-        this.drawShip();
+        if(this.ctx) {
+            this.drawShip();
+            drawPlanet(1, 100, 100, this.ctx)
+        }
     }
 
     private clear () {
@@ -30,22 +33,26 @@ export class Graphics {
         }
     }
     drawShip(x = 100, y = 100) {
-        // this.clear();
-        const shipImage = createImage(IMAGE_LIST.SHIP);
+        const ship = createImage(IMAGE_LIST.SHIP);
         if(this.ctx) {
-            this.ctx.drawImage(shipImage, 0, 0, 30, 60);
+            this.ctx.drawImage(ship.image, 0, 0, ship.width, ship.height);
         }
     }
+}
+interface CanvasGraphObject {
+    image: HTMLImageElement,
+    width: number,
+    height: number
 }
 enum IMAGE_LIST {
     SHIP = "images/ship.png",
     PLANETS = "images/planets.png",
     ELON = "images/ship.png",
 }
-const createImage = (image: IMAGE_LIST = IMAGE_LIST.SHIP): HTMLImageElement => {
+const createImage = (image: IMAGE_LIST = IMAGE_LIST.SHIP): CanvasGraphObject => {
     const shipImage = new Image();
     shipImage.src = image;
-    return shipImage;
+    return {image: shipImage, width: 30, height: 60};
 }
 const raster = 64;
 const Planets = [
@@ -62,10 +69,14 @@ const Planets = [
     [2* raster, 3*raster],
     [2* raster, 4*raster],
 ]
-
-const createPlanet = (): HTMLImageElement => {
+const createPlanet = (number: 1): CanvasGraphObject => {
     const image: IMAGE_LIST = IMAGE_LIST.PLANETS
     const shipImage = new Image();
     shipImage.src = image;
-    return shipImage;
+    return {image: shipImage, width: 64, height: 64};
+}
+
+const drawPlanet = (whichPlanet: 1, x: number, y:number, ctx: CanvasRenderingContext2D): void => {
+    const planet = createPlanet(whichPlanet);
+    ctx.drawImage(planet.image, Planets[whichPlanet][0], Planets[whichPlanet][1], planet.width, planet.height, x,y, planet.width, planet.height);
 }
