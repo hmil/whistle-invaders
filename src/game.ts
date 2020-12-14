@@ -1,16 +1,19 @@
+import { Graphics } from './graphics';
 import { Controls } from "./controls";
 import { EventBus } from "./events";
 
 export class GameLoop {
 
     private stopped = true;
-
+    graphics: Graphics;
+        
     constructor(
             private readonly eventBus: EventBus,
             private readonly controls: Controls) {
 
         // TODO: for debug only, remove and handle fire somewhere else
         this.eventBus.on('fire', () => console.log('pew!'));
+        this.graphics = new Graphics();
     }
 
     stop() {
@@ -33,5 +36,6 @@ export class GameLoop {
         // TODO: Update physics
 
         // TODO: Update graphics
+        // this.updateGraphics();
     }
 }
