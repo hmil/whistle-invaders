@@ -121,21 +121,17 @@ export class Graphics {
     }
 
     private layerBackground(ctx: CanvasRenderingContext2D) {
-        this.backgroundObjectsLvl3 = this.drawParallaxBackground(ctx, this.backgroundObjectsLvl3, 1, 
-            [...Assets.backgrounds1]);
-        this.backgroundObjectsLvl2 = this.drawParallaxBackground(ctx, this.backgroundObjectsLvl2, 6, [...Assets.backgrounds2]);
-        // this.backgroundObjectsLvl1 = this.drawParallaxBackground(ctx, this.backgroundObjectsLvl1, 20, [...Assets.backgrounds]);
+        this.backgroundObjectsLvl3 = this.drawParallaxBackground(ctx, this.backgroundObjectsLvl3, 1, () => Assets.getBackground1(10));
+        this.backgroundObjectsLvl2 = this.drawParallaxBackground(ctx, this.backgroundObjectsLvl2, 4, () => Assets.getBackground2(10));
+        this.backgroundObjectsLvl1 = this.drawParallaxBackground(ctx, this.backgroundObjectsLvl1, 8, () => Assets.getPlanets(10));
     }
 
-    private drawParallaxBackground(ctx: CanvasRenderingContext2D, objectList: BackgroundObject[], speed: number, assets: CanvasGraphObject[]): BackgroundObject[] {
+    private drawParallaxBackground(ctx: CanvasRenderingContext2D, objectList: BackgroundObject[], speed: number, assets: () => CanvasGraphObject[]): BackgroundObject[] {
 
         if(objectList.length == 0) {
-            return [
-                [assets[0], World.WIDTH - Math.random() * 1200, Math.random() * World.HEIGHT, 0], 
-                [assets[1], World.WIDTH - Math.random() * 1200, Math.random() * World.HEIGHT, 0], 
-                [assets[2], World.WIDTH - Math.random() * 1200, Math.random() * World.HEIGHT, 0], 
-                [assets[3], World.WIDTH - Math.random() * 1200, Math.random() * World.HEIGHT, 0]
-            ];
+            return assets().map(e => {
+                return [e, World.WIDTH - Math.random() * 1200, Math.random() * World.HEIGHT, 0]
+            });
         }
         
        
@@ -152,8 +148,9 @@ export class Graphics {
         
         // push new if to less
         if(newobjectList.length < 5) {
-            console.log('push');
-            newobjectList.push([assets[3], World.WIDTH + 100, Math.random() * World.HEIGHT, speed]);
+            // console.log('push');
+            // const asdads = assets().map(e => [e, World.WIDTH - Math.random() * 1200, Math.random() * World.HEIGHT, 0]);
+            // newobjectList.push(asdads);
         }
         return newobjectList;
         

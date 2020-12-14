@@ -75,6 +75,10 @@ export class TutorialLevel implements GameLevel {
                 this.scene.removeEntity(target);
                 this.scene.removeEntity(text);
                 this.scene.addEntity(new TextEntity('Well done!'));
+                this.eventBus.emit({
+                    _type: 'gameOver',
+                    success: true
+                });
             }
         });
     }

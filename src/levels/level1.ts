@@ -54,6 +54,9 @@ export class Level1 implements GameLevel {
     }
 
     gameOver(): void {
-
+        this.eventBus.emit({
+            _type: 'gameOver',
+            success: true
+        });
     }
 }
