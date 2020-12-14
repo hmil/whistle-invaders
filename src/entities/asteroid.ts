@@ -1,6 +1,6 @@
 import { Entity } from "./entity";
 
-export class Missile implements Entity {
+export class Asteroid implements Entity {
     public x: number;
     public y: number;
     public speedX: number;
