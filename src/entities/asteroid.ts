@@ -21,7 +21,7 @@ export class Asteroid extends Entity<'asteroid'> {
     }
 
     public tick(deltaTime: number): void {
-        this.x = this.x + deltaTime*this.speedX;
+        this.x = this.x + deltaTime*this.speedX * 0.25;
     }
 
     public missileHit(missile: Missile): void {
