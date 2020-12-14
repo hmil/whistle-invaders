@@ -19,6 +19,12 @@ export class StandardRules {
         this.eventBus.on('fire', () => {
             const ship = this.scene.starship;
             const missile = new Missile(ship.x, ship.y, 2);
+            missile.on('collision', (missile, target) => {
+                this.eventBus.emit({
+                    _type: 'missileHit',
+                    missile, target
+                });
+            });
             this.scene.addEntity(missile);
         });
     }
@@ -27,21 +33,13 @@ export class StandardRules {
      * Effect of the missile on the asteroid
      */
     applyMissileEffectRule() {
-        this.eventBus.on('collision', (evt) => {
-            if (evt.a.type === 'missile') {
-                this.doMissileEffect(evt.a, evt.b);
-            } else if (evt.b.type === 'missile') {
-                this.doMissileEffect(evt.b, evt.a);
+        this.eventBus.on('missileHit', (evt) => {
+            switch (evt.target.type) {
+                case 'asteroid':
+                    console.log('boom');
+                    this.scene.removeEntity(evt.target);
+                    this.scene.removeEntity(evt.missile);
             }
         });
-    }
-
-    private doMissileEffect(missile: Missile, target: Entities) {
-        switch (target.type) {
-            case 'asteroid':
-                console.log('boom');
-                this.scene.removeEntity(target);
-                this.scene.removeEntity(missile);
-        }
     }
 }

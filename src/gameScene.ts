@@ -43,7 +43,8 @@ export class GameScene implements Tickable {
             for (let j = i + 1 ; j < entities.length ; j++) {
                 const b = entities[j];
                 if (this.collisionDetection(a, b)) {
-                    this.eventBus.emit({ _type: 'collision', a, b });
+                    a.collide(b);
+                    b.collide(a);
                 }
             }
         }
