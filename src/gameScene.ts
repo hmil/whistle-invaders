@@ -5,6 +5,7 @@ import { Starship } from "./entities/starship";
 import { Tickable } from "./tickable";
 import { Entities } from "./entities";
 import { EventBus } from "./events";
+import { GameLevel } from "levels/game-level";
 
 export class GameScene implements Tickable {
     public readonly starship = new Starship(0, 0, 0);
@@ -42,7 +43,8 @@ export class GameScene implements Tickable {
             for (let j = i + 1 ; j < entities.length ; j++) {
                 const b = entities[j];
                 if (this.collisionDetection(a, b)) {
-                    this.eventBus.emit({ _type: 'collision', a, b });
+                    a.collide(b);
+                    b.collide(a);
                 }
             }
         }

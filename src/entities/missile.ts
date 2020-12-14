@@ -1,7 +1,7 @@
 import { Assets } from "../assets";
 import { drawBoundingBox, Entity } from "./entity";
 
-export class Missile implements Entity<'missile'> {
+export class Missile extends Entity<'missile'> {
     public readonly type = 'missile';
     public x: number;
     public y: number;
@@ -11,6 +11,7 @@ export class Missile implements Entity<'missile'> {
     public ySize: number;
 
     constructor(x: number, y: number, speedX: number) {
+        super();
         this.x = x;
         this.y = y;
         this.speedX = speedX;
@@ -24,6 +25,6 @@ export class Missile implements Entity<'missile'> {
 
     public draw(ctx: CanvasRenderingContext2D) {
         Assets.drawEntity(Assets.asteroids[0], this.x, this.y, ctx);
-        drawBoundingBox(ctx, this);
+        super.draw(ctx);
     }
 }

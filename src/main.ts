@@ -1,3 +1,4 @@
+import { Level1 } from './levels/level1';
 import { Assets } from './assets';
 import { AudioController } from './audio-controller';
 import { Controls } from './controls';
@@ -20,7 +21,9 @@ function main() {
     const controls = new Controls(eventBus, audioController);
     const scene = new GameScene(eventBus, controls);
     const graphics = new Graphics(scene);
+
     const level = new TutorialLevel(eventBus, scene);
+
     const game = new GameLoop(graphics, eventBus, controls, scene, level);
     game.start();
 }

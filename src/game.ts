@@ -40,7 +40,7 @@ export class GameLoop {
         const newTime = (new Date()).getTime();
 
         this.scene.tick(newTime - this.lastTime);
-        this.level.tick();
+        this.level.tick(newTime - this.lastTime);
         this.graphics.updateGraphics(newTime);
 
         this.lastTime = newTime;

@@ -1,23 +1,18 @@
 import { Entities } from "./entities";
+import { Missile } from "./entities/missile";
 
 export interface BaseEvent<Type extends string> {
     _type: Type;
 }
 
 export interface FireEvent extends BaseEvent<'fire'> {}
-export interface CollisionEvent extends BaseEvent<'collision'> {
-    /**
-     * Colliding entity A
-     */
-    a: Entities;
-    /**
-     * Colliding entity B
-     */
-    b: Entities;
-}
 export interface TestEvent extends BaseEvent<'test'> {}
+export interface MissileHitEvent extends BaseEvent<'missileHit'> {
+    missile: Missile;
+    target: Entities;
+}
 
-export type GameEvent = FireEvent | TestEvent | CollisionEvent;
+export type GameEvent = FireEvent | TestEvent | MissileHitEvent;
 
 export type EventType = GameEvent['_type'];
 
@@ -28,7 +23,7 @@ export class EventBus {
     private listeners: { [key in EventType]: EventHandler<any>[] } = {
         fire: [],
         test: [],
-        collision: []
+        missileHit: []
     };
 
     emit(evt: GameEvent): void {

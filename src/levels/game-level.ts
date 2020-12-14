@@ -1,7 +1,6 @@
+import { Tickable } from "tickable";
 
-export interface GameLevel {
-
+export interface GameLevel extends Tickable {
     load(): void;
-    tick(): void;
     unload(): void;
 }
