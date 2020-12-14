@@ -129,16 +129,18 @@ export class Graphics {
 
     private layerBackground(ctx: CanvasRenderingContext2D) {
         this.backgroundObjectsLvl3 = this.drawParallaxBackground(ctx, this.backgroundObjectsLvl3, 1, () => Assets.getBackground1(4));
-        this.backgroundObjectsLvl2 = this.drawParallaxBackground(ctx, this.backgroundObjectsLvl2, 4, () => Assets.getBackground2(40));
+        this.backgroundObjectsLvl2 = this.drawParallaxBackground(ctx, this.backgroundObjectsLvl2, 2, () => Assets.getBackground2(40));
         this.backgroundObjectsLvl1 = this.drawParallaxBackground(ctx, this.backgroundObjectsLvl1, 8, () => Assets.getPlanets(15));
     }
 
     private drawParallaxBackground(ctx: CanvasRenderingContext2D, objectList: BackgroundObject[], speed: number, assets: () => CanvasGraphObject[]): BackgroundObject[] {
-        
+        console.log('objectList', objectList.length)
         if(objectList.length == 0) {
-            return assets().map(e => {
+            const all: BackgroundObject[] = assets().map(e => {
                 return [e, World.WIDTH - Math.random() * 1200, Math.random() * World.HEIGHT, 0]
             });
+            console.log('init', all.length, all);
+            return all;
         }
         
        
@@ -152,12 +154,14 @@ export class Graphics {
             .filter(([p, x, y, offset]) => World.WIDTH - x - (offset * speed) > -100)
             .map(drawAndMap(speed));
         // push new if to less
-        if (newBackgroundList.length <= objectList.length ) {
-            console.log('push', newBackgroundList.length);
-            const newStuff: BackgroundObject[] =  assets().map(e =>  { return [e, World.WIDTH, Math.random() * World.HEIGHT, 1]});
-            // const test = [...newBackgroundList, ...newStuff];
-            // return test;
-
+        if (newBackgroundList.length < objectList.length ) {
+            const newStuff: BackgroundObject[] = assets().slice(0, 1).map(e => {
+                return [e, (-400 + Math.random() * 400), Math.random() * World.HEIGHT, 0]
+            });
+            
+            const all = [...newStuff, ...newBackgroundList];
+            
+            return all;
         }
         return newBackgroundList;
     }
