@@ -79,12 +79,12 @@ export class Graphics {
 
     private drawBackground(ctx: CanvasRenderingContext2D) {
         // planets
-        Assets.drawEntity(Assets.planets[0], 100, 100, ctx);
-        Assets.drawEntity(Assets.planets[1], 300, 500, ctx);
-        Assets.drawEntity(Assets.planets[2], 400, 200, ctx);
-        Assets.drawEntity(Assets.planets[3], 600, 530, ctx);
-        Assets.drawEntity(Assets.planets[4], 333, 441, ctx);
-        Assets.drawEntity(Assets.planets[5], 220, 107, ctx);
+        // Assets.drawEntity(Assets.planets[0], 100, 100, ctx);
+        // Assets.drawEntity(Assets.planets[1], 300, 500, ctx);
+        // Assets.drawEntity(Assets.planets[2], 400, 200, ctx);
+        // Assets.drawEntity(Assets.planets[3], 600, 530, ctx);
+        // Assets.drawEntity(Assets.planets[4], 333, 441, ctx);
+        // Assets.drawEntity(Assets.planets[5], 220, 107, ctx);
     }
 
     private clear () {
@@ -107,7 +107,6 @@ export class Graphics {
         const oneSecond = 50;
         if(this.time + oneSecond < newTimeStamp) {
             this.time = newTimeStamp;
-            //  this.offset += 1;
             this.backgroundObjectsLvl1 = this.backgroundObjectsLvl1.map(([p, x, y, offset] )=> [p, x, y, offset +1]);
             this.backgroundObjectsLvl2 = this.backgroundObjectsLvl2.map(([p, x, y, offset] )=> [p, x, y, offset +1]);
             this.backgroundObjectsLvl3 = this.backgroundObjectsLvl3.map(([p, x, y, offset] )=> [p, x, y, offset +1]);
@@ -124,10 +123,10 @@ export class Graphics {
 
         if(objectList.length == 0) {
             return [
-                [Assets.planets[0], window.innerWidth - Math.random() * 1200, Math.random() * 600, 0], 
-                [Assets.planets[1], window.innerWidth - Math.random() * 1200, Math.random() * 600, 0], 
-                [Assets.planets[2], window.innerWidth - Math.random() * 1200, Math.random() * 600, 0], 
-                [Assets.planets[3], window.innerWidth - Math.random() * 1200, Math.random() * 600, 0]
+                [Assets.planets[0], World.WIDTH - Math.random() * 1200, Math.random() * World.HEIGHT, 0], 
+                [Assets.planets[1], World.WIDTH - Math.random() * 1200, Math.random() * World.HEIGHT, 0], 
+                [Assets.planets[2], World.WIDTH - Math.random() * 1200, Math.random() * World.HEIGHT, 0], 
+                [Assets.planets[3], World.WIDTH - Math.random() * 1200, Math.random() * World.HEIGHT, 0]
             ];
         }
         
