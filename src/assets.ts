@@ -1,5 +1,5 @@
 
-interface CanvasGraphObject {
+export interface CanvasGraphObject {
     image: HTMLImageElement,
     width: number,
     height: number,

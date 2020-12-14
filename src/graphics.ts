@@ -1,12 +1,11 @@
-import { Assets } from './assets';
+import { Assets, CanvasGraphObject } from './assets';
 import { GameScene } from './gameScene';
 
 export class Graphics {
     ctx: CanvasRenderingContext2D;
     
     time: number = new Date().getTime();
-    offset: number = 0;
-    backgroundObjects: [CanvasGraphObject, number, number][] = [];
+    backgroundObjects: [CanvasGraphObject, number, number, number][] = [];
    
     constructor(
             private readonly gameScene: GameScene) {
@@ -60,30 +59,32 @@ export class Graphics {
         const oneSecond = 50;
         if(this.time + oneSecond < newTimeStamp) {
             this.time = newTimeStamp;
-            this.offset += 1;
+            //  this.offset += 1;
+            this.backgroundObjects = this.backgroundObjects.map(([p, x, y, offset] )=> [p, x, y, offset +1]);
         }
     }
     private drawParallaxBackground(ctx: CanvasRenderingContext2D) {
         if(this.backgroundObjects.length == 0) {
             this.backgroundObjects = [
-                [this.planets[0], window.innerWidth, Math.random() * 600], 
-                [this.planets[1], window.innerWidth, Math.random() * 600], 
-                [this.planets[2], window.innerWidth, Math.random() * 600], 
-                [this.planets[3], window.innerWidth, Math.random() * 600]
+                [Assets.planets[0], window.innerWidth - Math.random() * 1200, Math.random() * 600, 0], 
+                [Assets.planets[1], window.innerWidth - Math.random() * 1200, Math.random() * 600, 0], 
+                [Assets.planets[2], window.innerWidth - Math.random() * 1200, Math.random() * 600, 0], 
+                [Assets.planets[3], window.innerWidth - Math.random() * 1200, Math.random() * 600, 0]
             ];
         }
 
-        const offsetInPixel = this.offset * 10;
-        // draw
-        this.backgroundObjects = this.backgroundObjects.map( ([p, x, y])=> {
-            const pos = window.innerWidth - offsetInPixel;
+        this.backgroundObjects = this.backgroundObjects.map( ([p, x, y, offset])=> {
+            const pos = window.innerWidth - x - (offset* 10);
             Assets.drawEntity(p, pos, y, ctx);
-            return [p, pos, y];
+            return [p, x, y, offset];
         })
-        this.backgroundObjects = this.backgroundObjects.filter(([p, x]) => x < 0);
+        // remove stuff out of canvas
+        this.backgroundObjects = this.backgroundObjects.filter(([p, x, y, offset]) => window.innerWidth - x - offset > -100);
         
+        // push new if to less
         if(this.backgroundObjects.length < 5) {
-            // this.backgroundObjects.push([this.planets[3], window.innerWidth, Math.random() * 600]);
+            console.log('push');
+             this.backgroundObjects.push([Assets.planets[0], window.innerWidth, Math.random() * 600, 0]);
         }
         
     }
