@@ -1,3 +1,4 @@
+import { AudioController } from "./audio-controller";
 import { EventBus } from "./events";
 
 /**
@@ -35,18 +36,19 @@ export class Controls {
         down: 0
     };
 
-    constructor(private readonly eventBus: EventBus) {
+    constructor(private readonly eventBus: EventBus,
+                private readonly audioController: AudioController) {
 
         window.addEventListener('keydown', (evt) => this.onKeyDown(evt));
         window.addEventListener('keyup', (evt) => this.onKeyUp(evt));
     }
 
     getCurrentControls(): UserControls {
+        const audioCtrl = this.audioController.getOutput();
         return {
-            engineThrottle: this.keyStates.up - this.keyStates.down
+            engineThrottle: audioCtrl === 0 ? this.keyStates.up - this.keyStates.down : audioCtrl
         };
     }
-
 
     private onKeyDown(evt: KeyboardEvent) {
         switch (evt.key) {

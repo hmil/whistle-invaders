@@ -1,6 +1,7 @@
 import { GameLoop } from "./game";
 import { EventBus } from "./events";
 import { Controls } from "./controls";
+import { AudioController } from "./audio-controller";
 
 function main() {
     console.log('Hello');
@@ -16,8 +17,12 @@ function main() {
     }
     ctx.fillText('Hello world', 10, 10);
 
+    const audioController = new AudioController();
+    window.addEventListener('click', () => {
+        audioController.init();
+    });
     const eventBus = new EventBus();
-    const controls = new Controls(eventBus);
+    const controls = new Controls(eventBus, audioController);
     const game = new GameLoop(eventBus, controls);
     game.start();
 }
