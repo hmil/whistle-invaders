@@ -113,8 +113,8 @@ export abstract class Assets {
 
         Assets.asteroids = [
             Assets.createAsteroids(asteroids[0][0], asteroids[0][1]),
-            Assets.createAsteroids(asteroids[1][0], asteroids[1][1]),
-            Assets.createAsteroids(asteroids[2][0], asteroids[2][1]),
+            Assets.createAsteroids(asteroids[3][0], asteroids[3][1]),
+            Assets.createAsteroids(asteroids[4][0], asteroids[4][1]),
         ];
     }
 

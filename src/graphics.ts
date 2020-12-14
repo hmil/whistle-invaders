@@ -104,7 +104,7 @@ export class Graphics {
     }
 
     calculateBackgroundParallax(newTimeStamp: number) {
-        const oneSecond = 50;
+        const oneSecond = 20;
         if(this.time + oneSecond < newTimeStamp) {
             this.time = newTimeStamp;
             this.backgroundObjectsLvl1 = this.backgroundObjectsLvl1.map(([p, x, y, offset] )=> [p, x, y, offset +1]);
@@ -134,17 +134,17 @@ export class Graphics {
             return [p, x, y, offset];
         };
 
-        let newobjectList = objectList.map(drawAndMap(speed));
-        const originalLength = objectList.length;
-        // remove stuff out of canvas
-        newobjectList = newobjectList.filter(([p, x, y, offset]) => World.WIDTH - x - offset > -100);
-        
+        let newBackgroundList: BackgroundObject[] = objectList
+            .filter(([p, x, y, offset]) => World.WIDTH - x - (offset * speed) > -100)
+            .map(drawAndMap(speed));
         // push new if to less
-        if (newobjectList.length < originalLength) {
-            // const newStuff =  assets().map(e =>  { return [e, World.WIDTH, Math.random() * World.HEIGHT, 0]});
-            // return [...newobjectList, ...newStuff];
+        if (newBackgroundList.length <= objectList.length ) {
+            console.log('push', newBackgroundList.length);
+            const newStuff: BackgroundObject[] =  assets().map(e =>  { return [e, World.WIDTH, Math.random() * World.HEIGHT, 1]});
+            // const test = [...newBackgroundList, ...newStuff];
+            // return test;
 
         }
-        return newobjectList;
+        return newBackgroundList;
     }
 }
