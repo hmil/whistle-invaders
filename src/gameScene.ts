@@ -8,7 +8,7 @@ import { EventBus } from "./events";
 import { GameLevel } from "levels/game-level";
 
 export class GameScene implements Tickable {
-    public readonly starship = new Starship(10, 0, 0);
+    public readonly starship = new Starship(10, World.HEIGHT / 2, 0);
     public readonly entities: Set<Entities> = new Set();
 
     public readonly world = new World(); // It's a new day, it's a new life... for me

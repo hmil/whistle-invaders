@@ -105,7 +105,7 @@ export abstract class Assets {
             return this.loadSheet(foo);
         }));
         return loading.then(() => {
-            Assets.shipSprite = Assets.createSprite(IMAGE_LIST.SHIP);
+            Assets.shipSprite = Assets.createSprite(IMAGE_LIST.SHIP, 90, 210, 0, 0, 310, 978);
 
             Assets.missileImage = Assets.createSprite(IMAGE_LIST.MISSILE);
 
@@ -158,20 +158,20 @@ export abstract class Assets {
         height = height ?? source.height;
         sx = sx ?? 0;
         sy = sy ?? 0;
-        sw = sw ?? width;
-        sh = sh ?? height;
+        sw = sw ?? source.width;
+        sh = sh ?? source.height;
         return { source, width, height, sx, sy, sw, sh };
     }
 
-    private static createBackgrounds(posx: number, posy: number, w: number, h: number, ): Sprite {
-        return this.createSprite(IMAGE_LIST.PLANETS, w, h, posx, posy);
+    private static createBackgrounds(posx: number, posy: number, w: number, h: number): Sprite {
+        return this.createSprite(IMAGE_LIST.PLANETS, w, h, posx, posy, w, h);
     }
     private static createPlanet(posx: number, posy: number): Sprite {
-        return this.createSprite(IMAGE_LIST.PLANETS, 64, 64, posx, posy);
+        return this.createSprite(IMAGE_LIST.PLANETS, 64, 64, posx, posy, 64, 64);
     }
 
     private static createAsteroids(posx: number, posy: number): Sprite {
-        return this.createSprite(IMAGE_LIST.PLANETS, 32, 32, posx, posy);
+        return this.createSprite(IMAGE_LIST.PLANETS, 32, 32, posx, posy, 32, 32);
     }
     
     public static drawSprite(sprite: Sprite, x: number, y:number, ctx: CanvasRenderingContext2D, opacity: number = 1): void {

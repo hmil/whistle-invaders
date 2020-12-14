@@ -13,9 +13,9 @@ export class AudioController {
 
     // TODO: Let the user calibrate these values
     /** Lowest control frequency */
-    private loFreq = 600;
+    private loFreq = Math.log(600);
     /** Highest control frequency */
-    private hiFreq = 1200;
+    private hiFreq = Math.log(1600);
 
     private context: AudioContext | null = null;
     private analyser?: AnalyserNode | null;
@@ -165,9 +165,9 @@ export class AudioController {
             this.currentOuptput = 0;
             this.currentFreq = null;
         } else {
-            this.currentFreq = ac;
+            this.currentFreq = Math.log(ac);
             const delta = this.hiFreq - this.loFreq;
-            const value = (ac - this.loFreq) / delta - 0.5;
+            const value = (this.currentFreq - this.loFreq) / delta - 0.5;
             this.currentOuptput = -clamp(value * 2, -1, 1); // Invert such that high pitch goes up and low goes down
         }
 

@@ -24,8 +24,8 @@ export class Starship extends Entity<'starship'> {
         this.x = x;
         this.y = y;
         this.speedY = speedY;
-        this.xSize = 70;
-        this.ySize = 30;
+        this.xSize = Assets.shipSprite.height;
+        this.ySize = Assets.shipSprite.width;
     }
 
     public tick(deltaTime: number): void {
@@ -48,7 +48,7 @@ export class Starship extends Entity<'starship'> {
         ctx.translate(this.x, this.y);
         ctx.rotate(Math.PI / 2);
         ctx.translate(0, -this.xSize);
-        ctx.drawImage(Assets.shipSprite.source, 0, 0, this.ySize, this.xSize);
+        Assets.drawSprite(Assets.shipSprite, 0, 0, ctx);
         ctx.restore();
         super.draw(ctx);
     }

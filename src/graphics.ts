@@ -113,9 +113,9 @@ export class Graphics {
 
     private layerBackground(ctx: CanvasRenderingContext2D) {
         this.ctx.globalCompositeOperation = '';
-        this.backgroundObjectsLvl3 = this.drawParallaxBackground(ctx, this.backgroundObjectsLvl3, 1, () => Assets.getBackground1(4), 0.3);
-        this.backgroundObjectsLvl2 = this.drawParallaxBackground(ctx, this.backgroundObjectsLvl2, 2, () => Assets.getBackground2(12), 0.3);
-        this.backgroundObjectsLvl1 = this.drawParallaxBackground(ctx, this.backgroundObjectsLvl1, 2.5, () => Assets.getPlanets(15), 0.2);
+        this.backgroundObjectsLvl3 = this.drawParallaxBackground(ctx, this.backgroundObjectsLvl3, 1, () => Assets.getBackground1(4), 0.2);
+        this.backgroundObjectsLvl2 = this.drawParallaxBackground(ctx, this.backgroundObjectsLvl2, 2, () => Assets.getBackground2(12), 0.2);
+        this.backgroundObjectsLvl1 = this.drawParallaxBackground(ctx, this.backgroundObjectsLvl1, 2.5, () => Assets.getPlanets(15), 0.1);
     }
 
     private drawParallaxBackground(ctx: CanvasRenderingContext2D, objectList: BackgroundObject[], speed: number, assets: () => Sprite[], opacity: number): BackgroundObject[] {

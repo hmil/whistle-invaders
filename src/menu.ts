@@ -1,6 +1,7 @@
 import { Level1 } from "./levels/level1";
 import { Game } from "./game";
 import { TutorialLevel } from "./levels/tutorial";
+import { UserConfig } from "./user-config";
 
 export class Menu {
 
@@ -8,10 +9,12 @@ export class Menu {
     private tutorialBtn = document.getElementById('tutorial-btn') as HTMLElement;
     private configBtn = document.getElementById('config-btn') as HTMLElement;
     private menu = document.getElementById('menu') as HTMLElement;
+    private menu2 = document.getElementById('menu-2') as HTMLElement;
     private debugBox = document.getElementById('checkbox-debug') as HTMLInputElement;
     private loading = document.getElementById('loading') as HTMLInputElement;
 
     private game = new Game();
+    private config = new UserConfig(this.game.audioController);
 
     constructor() {
         this.loading.style.display = 'none';
@@ -51,7 +54,14 @@ export class Menu {
         this.hideMenu();
     }
 
-    private configure() {}
+    private async configure() {
+        this.hideMenu();
+        this.menu2.style.display = '';
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        await this.config.configure();
+        this.menu2.style.display = 'none';
+        this.showMenu();
+    }
 
     public toggleMenu() {
         if (this.isVisible()) {

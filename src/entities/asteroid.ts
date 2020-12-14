@@ -1,6 +1,6 @@
 import { clamp } from "../utils";
 import { World } from "../world";
-import { Assets } from "../assets";
+import { Assets, Sprite } from "../assets";
 import { Entity } from "./entity";
 import { Missile } from "./missile";
 
@@ -13,13 +13,21 @@ export class Asteroid extends Entity<'asteroid'> {
     public xSize: number;
     public ySize: number;
 
-    constructor(x: number, y: number, speedX: number) {
+    private sprite: Sprite;
+    private size: number;
+    private rotation: number;
+
+    constructor(x: number, y: number, speedX: number, size: number) {
         super();
         this.x = x;
         this.y = y;
+        this.size = size;
         this.speedX = speedX;
-        this.xSize = 40;
-        this.ySize = 40;
+        this.xSize = size;
+        this.ySize = size;
+        this.rotation = Math.random() * 2 * Math.PI;
+
+        this.sprite = { ...Assets.asteroids[1], width: size, height: size };
 
         this.y = clamp(this.y, 0, World.HEIGHT - this.ySize);
     }
@@ -29,7 +37,11 @@ export class Asteroid extends Entity<'asteroid'> {
     }
 
     public draw(ctx: CanvasRenderingContext2D) {
-        Assets.drawSprite(Assets.asteroids[1], this.x, this.y, ctx);
+        ctx.save();
+        ctx.translate(this.x + this.size / 2, this.y + this.size / 2);
+        ctx.rotate(this.rotation);
+        Assets.drawSprite(this.sprite, -this.size / 2, -this.size / 2, ctx);
+        ctx.restore();
         super.draw(ctx);
     }
 }

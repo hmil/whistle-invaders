@@ -1,4 +1,4 @@
-import { Entities } from '../../entities';
+import { Assets } from '../../assets';
 import { Missile } from '../../entities/missile';
 import { EventBus } from '../../events';
 import { GameScene } from '../../gameScene';
@@ -18,7 +18,7 @@ export class StandardRules {
     applyFireMissileRule() {
         this.eventBus.on('fire', () => {
             const ship = this.scene.starship;
-            const missile = new Missile(ship.x, ship.y, 2);
+            const missile = new Missile(ship.x + Assets.shipSprite.height * 0.9, ship.y + Assets.shipSprite.width / 2, 2);
             missile.on('collision', (missile, target) => {
                 this.eventBus.emit({
                     _type: 'missileHit',
@@ -36,7 +36,6 @@ export class StandardRules {
         this.eventBus.on('missileHit', (evt) => {
             switch (evt.target.type) {
                 case 'asteroid':
-                    console.log('boom');
                     this.scene.removeEntity(evt.target);
                     this.scene.removeEntity(evt.missile);
                     this.scene.addToScore(1);

@@ -67,7 +67,7 @@ export class TutorialLevel implements GameLevel {
     private startShootingPractice() {
         const text = new TextEntity('Scream to fire a missile at the asteroid!');
         this.scene.addEntity(text);
-        const target = new Asteroid(World.WIDTH - 200, World.HEIGHT / 2, 0);
+        const target = new Asteroid(World.WIDTH - 200, World.HEIGHT / 2, 0, 80);
         this.scene.addEntity(target);
 
         target.on('collision', (self, other) => {

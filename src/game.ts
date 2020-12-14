@@ -11,7 +11,7 @@ export class Game {
     private lastTime: number;
 
     public readonly eventBus = new EventBus();
-    private readonly audioController = new AudioController(this.eventBus);
+    public readonly audioController = new AudioController(this.eventBus);
     private readonly controls = new Controls(this.eventBus, this.audioController);
     private scene;
     private graphics;

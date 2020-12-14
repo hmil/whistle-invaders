@@ -12,7 +12,8 @@
             width: 100%;
             overflow: hidden;
             background-color: #111113;
-            font-family: Arial, Helvetica, sans-serif;
+            font-family: monospace;
+            font-size: 18px;
         }
 
         .debug-canvas {
@@ -80,6 +81,19 @@
             font-size: 20px;
         }
 
+        .menu-text {
+            padding: 20px;
+        }
+
+        .btn.disabled {
+            color: #999;
+            cursor: not-allowed;
+        }
+
+        .btn.disabled:hover {
+            background-color: initial;
+        }
+
     </style>
 </head>
 <body>
@@ -96,6 +110,15 @@
                 <div class="btn" id="config-btn">Configure</div>
                 <div class="spacer"></div>
                 <div><input type="checkbox" name="debug" id="checkbox-debug">Debug</div>
+            </div>
+        </div>
+    </div>
+    <div id="menu-2" style="display: none;">
+        <div class="menu-container">
+            <div class="menu-box">
+                <div class="menu-text">Do one whistle sweep from a high note to a low note.</div>
+                <div class="spacer"></div>
+                <div class="btn disabled" id="config-btn">OK</div>
             </div>
         </div>
     </div>
