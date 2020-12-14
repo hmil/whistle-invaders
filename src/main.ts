@@ -12,6 +12,10 @@ function main() {
         return;
     }
     ctx.fillText('Hello world', 10, 10);
+
+
+    const game = new GameLoop();
+    game.start();
 }
 
 window.addEventListener('load', main);
