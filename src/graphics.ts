@@ -69,7 +69,6 @@ export class Graphics {
             this.gameScene.entities.forEach(entity => entity.draw(this.ctx))
             this.drawShield(this.ctx, this.gameScene.starship.shield);
             this.drawScore(this.ctx, this.gameScene.score);
-            this.drawBackground(this.ctx);
             this.drawAsteroids(this.ctx);
         }
     }
@@ -89,16 +88,6 @@ export class Graphics {
     private drawAsteroids(ctx: CanvasRenderingContext2D) {
         Assets.drawEntity(Assets.asteroids[0], 180, 230, ctx);
         Assets.drawEntity(Assets.asteroids[1], 320, 670, ctx);
-    }
-
-    private drawBackground(ctx: CanvasRenderingContext2D) {
-        // planets
-        // Assets.drawEntity(Assets.planets[0], 100, 100, ctx);
-        // Assets.drawEntity(Assets.planets[1], 300, 500, ctx);
-        // Assets.drawEntity(Assets.planets[2], 400, 200, ctx);
-        // Assets.drawEntity(Assets.planets[3], 600, 530, ctx);
-        // Assets.drawEntity(Assets.planets[4], 333, 441, ctx);
-        // Assets.drawEntity(Assets.planets[5], 220, 107, ctx);
     }
 
     private clear () {
@@ -128,9 +117,9 @@ export class Graphics {
     }
 
     private layerBackground(ctx: CanvasRenderingContext2D) {
-        this.backgroundObjectsLvl3 = this.drawParallaxBackground(ctx, this.backgroundObjectsLvl3, 1, () => Assets.getBackground1(4), 0.5);
-        this.backgroundObjectsLvl2 = this.drawParallaxBackground(ctx, this.backgroundObjectsLvl2, 2, () => Assets.getBackground2(40), 0.8);
-        this.backgroundObjectsLvl1 = this.drawParallaxBackground(ctx, this.backgroundObjectsLvl1, 8, () => Assets.getPlanets(15), 1);
+        this.backgroundObjectsLvl3 = this.drawParallaxBackground(ctx, this.backgroundObjectsLvl3, 1, () => Assets.getBackground1(4), 0.3);
+        this.backgroundObjectsLvl2 = this.drawParallaxBackground(ctx, this.backgroundObjectsLvl2, 2, () => Assets.getBackground2(40), 0.5);
+        this.backgroundObjectsLvl1 = this.drawParallaxBackground(ctx, this.backgroundObjectsLvl1, 8, () => Assets.getPlanets(15), 0.4);
     }
 
     private drawParallaxBackground(ctx: CanvasRenderingContext2D, objectList: BackgroundObject[], speed: number, assets: () => CanvasGraphObject[], opacity: number): BackgroundObject[] {

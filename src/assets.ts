@@ -149,9 +149,9 @@ export abstract class Assets {
         return {image: img, width: 32, height: 32, posx, posy};
     }
     
-    public static drawEntity(whichPlanet: CanvasGraphObject, x: number, y:number, ctx: CanvasRenderingContext2D, opacity?: number): void {
+    public static drawEntity(objectToDraw: CanvasGraphObject, x: number, y:number, ctx: CanvasRenderingContext2D, opacity?: number): void {
         ctx.globalAlpha = opacity || 1;
-        ctx.drawImage(whichPlanet.image, whichPlanet.posx || 0, whichPlanet.posy || 0, whichPlanet.width, whichPlanet.height, x,y, whichPlanet.width, whichPlanet.height);
+        ctx.drawImage(objectToDraw.image, objectToDraw.posx || 0, objectToDraw.posy || 0, objectToDraw.width, objectToDraw.height, x,y, objectToDraw.width, objectToDraw.height);
         ctx.globalAlpha = 1;
     }
 }
