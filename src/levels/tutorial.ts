@@ -21,13 +21,15 @@ export class TutorialLevel implements GameLevel {
         // Apply the standard rules
         this.standardRules.applyStandardRules();
 
-        for (let i = 0 ; i < 20 ; i++) {
-            this.scene.addEntity(new Asteroid(~~(Math.random() * World.WIDTH), ~~(Math.random() * World.HEIGHT), 0, 40, 40));
+        for (let i = 0 ; i < 5 ; i++) {
+            this.scene.addEntity(new Asteroid(~~(Math.random() * World.WIDTH), ~~(Math.random() * World.HEIGHT), -1 * (~~(Math.random() * 2) + 1), 40, 40));
         }
     }
 
     tick(): void {
-        
+        for (let i = 0 ; i < ~~(Math.random() * 5) ; i++) {
+            this.scene.addEntity(new Asteroid(~~(Math.random() * World.WIDTH), ~~(Math.random() * World.HEIGHT), -1 * (~~(Math.random() * 2) + 1), 40, 40));
+        }
     }
 
     unload(): void {

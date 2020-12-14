@@ -5,6 +5,7 @@ import { Starship } from "./entities/starship";
 import { Tickable } from "./tickable";
 import { Entities } from "./entities";
 import { EventBus } from "./events";
+import { GameLevel } from "levels/game-level";
 
 export class GameScene implements Tickable {
     public readonly starship = new Starship(0, 0, 0);
