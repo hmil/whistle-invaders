@@ -3,7 +3,7 @@ import { Assets } from "../assets";
 import { clamp } from "../utils";
 import { drawBoundingBox, Entity } from "./entity";
 
-export class Starship implements Entity<'starship'> {
+export class Starship extends Entity<'starship'> {
     public readonly type = 'starship';
     public x: number;
     public y: number;
@@ -19,6 +19,7 @@ export class Starship implements Entity<'starship'> {
     private thrust = 0.05;
 
     constructor(x: number, y: number, speedY: number) {
+        super();
         this.x = x;
         this.y = y;
         this.speedY = speedY;
