@@ -1,3 +1,5 @@
+import { clamp } from "../utils";
+import { World } from "../world";
 import { Assets } from "../assets";
 import { drawBoundingBox, Entity } from "./entity";
 import { Missile } from "./missile";
@@ -17,6 +19,8 @@ export class Asteroid implements Entity<'asteroid'> {
         this.speedX = speedX;
         this.xSize = xSize;
         this.ySize = ySzie;
+
+        this.y = clamp(this.y, 0, World.HEIGHT - this.ySize);
     }
 
     public tick(deltaTime: number): void {
