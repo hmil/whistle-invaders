@@ -34,6 +34,6 @@ export class Asteroid extends Entity<'asteroid'> {
 
     public draw(ctx: CanvasRenderingContext2D) {
         Assets.drawEntity(Assets.asteroids[1], this.x, this.y, ctx);
-        drawBoundingBox(ctx, this);
+        super.draw(ctx);
     }
 }

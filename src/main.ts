@@ -21,7 +21,9 @@ function main() {
     const controls = new Controls(eventBus, audioController);
     const scene = new GameScene(eventBus, controls);
     const graphics = new Graphics(scene);
-    const level = new Level1(eventBus, scene);
+
+    const level = new TutorialLevel(eventBus, scene);
+
     const game = new GameLoop(graphics, eventBus, controls, scene, level);
     game.start();
 }

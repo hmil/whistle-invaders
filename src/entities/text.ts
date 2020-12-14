@@ -21,5 +21,6 @@ export class TextEntity extends Entity<'text'> {
         ctx.fillStyle = '#fff';
         ctx.font = '30px sans-serif';
         ctx.fillText(this.text, this.x, this.y);
+        super.draw(ctx);
     }
 }

@@ -14,11 +14,11 @@ export abstract class Entity<T extends string = string> implements Tickable {
 
     private collisionListeners: Set<CollisionHandler<any>> = new Set();
 
-    on(_evt: 'collision', handler: CollisionHandler<T>) {
+    on(_evt: 'collision', handler: CollisionHandler<this>) {
         this.collisionListeners.add(handler);
     }
 
-    off(_evt: 'collision', handler: CollisionHandler<T>) {
+    off(_evt: 'collision', handler: CollisionHandler<this>) {
         this.collisionListeners.delete(handler);
     }
 
@@ -27,14 +27,14 @@ export abstract class Entity<T extends string = string> implements Tickable {
     }
 
     tick(deltaTime: number): void {}
-    draw(ctx: CanvasRenderingContext2D, x: number, y: number): void {
-        drawBoundingBox(ctx, this);
+    draw(ctx: CanvasRenderingContext2D): void {
+        if (window.DEBUG) {
+            drawBoundingBox(ctx, this);
+        }
     }
 }
 
 export function drawBoundingBox(ctx: CanvasRenderingContext2D, entity: Entity) {
-    if (window.DEBUG) {
-        ctx.strokeStyle = '#0f0';
-        ctx.strokeRect(entity.x, entity.y, entity.xSize, entity.ySize);
-    }
+    ctx.strokeStyle = '#0f0';
+    ctx.strokeRect(entity.x, entity.y, entity.xSize, entity.ySize);
 }

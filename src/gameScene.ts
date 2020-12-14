@@ -45,7 +45,6 @@ export class GameScene implements Tickable {
                 if (this.collisionDetection(a, b)) {
                     a.collide(b);
                     b.collide(a);
-                    this.eventBus.emit({ _type: 'collision', a, b });
                 }
             }
         }

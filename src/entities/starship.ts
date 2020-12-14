@@ -39,6 +39,6 @@ export class Starship extends Entity<'starship'> {
         ctx.translate(0, -this.xSize);
         ctx.drawImage(Assets.shipImage.image, 0, 0, this.ySize, this.xSize);
         ctx.restore();
-        drawBoundingBox(ctx, this);
+        super.draw(ctx);
     }
 }
