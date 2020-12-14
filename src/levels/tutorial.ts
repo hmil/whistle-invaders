@@ -1,3 +1,4 @@
+import { World } from "../world";
 import { Asteroid } from "../entities/asteroid";
 import { EventBus } from "../events";
 import { GameScene } from "../gameScene";
@@ -18,9 +19,9 @@ export class TutorialLevel implements GameLevel {
         // Apply the standard rules
         standardRules(this.eventBus, this.scene);
 
-        this.scene.addEntity(new Asteroid(400, 100, 0, 10, 10));
-        this.scene.addEntity(new Asteroid(500, 300, 0, 10, 10));
-        this.scene.addEntity(new Asteroid(3500, 800, 0, 10, 10));
+        for (let i = 0 ; i < 20 ; i++) {
+            this.scene.addEntity(new Asteroid(~~(Math.random() * World.WIDTH), ~~(Math.random() * World.HEIGHT), 0, 40, 40));
+        }
     }
 
     tick(): void {

@@ -13,7 +13,7 @@ export function standardRules(eventBus: EventBus, scene: GameScene) {
 export function fireMissileRule(eventBus: EventBus, scene: GameScene) {
     eventBus.on('fire', () => {
         const ship = scene.starship;
-        const missile = new Missile(ship.x, ship.y, 40);
+        const missile = new Missile(ship.x, ship.y, 2);
         scene.addEntity(missile);
     });
 }

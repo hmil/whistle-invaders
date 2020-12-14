@@ -1,5 +1,5 @@
 import { Assets } from "../assets";
-import { Entity } from "./entity";
+import { drawBoundingBox, Entity } from "./entity";
 
 export class Missile implements Entity<'missile'> {
     public readonly type = 'missile';
@@ -14,8 +14,8 @@ export class Missile implements Entity<'missile'> {
         this.x = x;
         this.y = y;
         this.speedX = speedX;
-        this.xSize = 10;
-        this.ySize = 2;
+        this.xSize = 40;
+        this.ySize = 40;
     }
 
     public tick(deltaTime: number): void {
@@ -23,6 +23,7 @@ export class Missile implements Entity<'missile'> {
     }
 
     public draw(ctx: CanvasRenderingContext2D) {
-        Assets.drawEntity(Assets.planets[0], 100, 100, ctx);
+        Assets.drawEntity(Assets.asteroids[0], this.x, this.y, ctx);
+        drawBoundingBox(ctx, this);
     }
 }

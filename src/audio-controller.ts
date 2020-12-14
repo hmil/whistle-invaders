@@ -13,9 +13,9 @@ export class AudioController {
 
     // TODO: Let the user calibrate these values
     /** Lowest control frequency */
-    private loFreq = 100;
+    private loFreq = 600;
     /** Highest control frequency */
-    private hiFreq = 500;
+    private hiFreq = 1200;
 
     private context: AudioContext | null = null;
     private analyser?: AnalyserNode | null;

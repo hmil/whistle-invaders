@@ -2,8 +2,8 @@ import { Tickable } from "./tickable";
 
 export class World implements Tickable {
     
-    public static readonly WIDTH = 160;
-    public static readonly HEIGHT = 90;
+    public static readonly WIDTH = 1600;
+    public static readonly HEIGHT = 900;
 
     /**
      * Speed at which the worlds scrolls by in units per second

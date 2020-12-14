@@ -9,7 +9,7 @@ import { Assets } from "assets";
 
 export class GameScene implements Tickable {
     public readonly starship = new Starship(0, 0, 0, 10, 10);
-    private entities: Set<Entities> = new Set();
+    public readonly entities: Set<Entities> = new Set();
 
     public readonly world = new World(); // It's a new day, it's a new life... for me
 
@@ -54,8 +54,8 @@ export class GameScene implements Tickable {
             (t1.x <= t2.x && t1.x + t1.xSize >= t2.x) ||
             (t2.x <= t1.x && t2.x + t2.xSize >= t1.x);
         const yCollide =
-            (t1.x <= t2.x && t1.x + t1.xSize >= t2.x) ||
-            (t2.x <= t1.x && t2.x + t2.xSize >= t1.x);
+            (t1.y <= t2.y && t1.y + t1.ySize >= t2.y) ||
+            (t2.y <= t1.y && t2.y + t2.ySize >= t1.y);
 
         return xCollide && yCollide;
     }

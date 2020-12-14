@@ -25,7 +25,7 @@ export class Graphics {
         this.drawCanvasScene();
         if (this.ctx) {
             this.drawShip(this.gameScene.starship.x, this.gameScene.starship.y);
-            // this.gameScene.asteroids.forEach(a => Assets.drawEntity(this.asteroids[0], a.x, a.y, this.ctx))
+            this.gameScene.entities.forEach(entity => entity.draw(this.ctx))
             this.drawBackground(this.ctx);
             this.drawAsteroids(this.ctx);
         }
