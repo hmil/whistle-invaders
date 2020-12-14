@@ -12,6 +12,7 @@ export class GameScene implements Tickable {
     public readonly entities: Set<Entities> = new Set();
 
     public readonly world = new World(); // It's a new day, it's a new life... for me
+    public score = 0;
 
     constructor(
         private readonly eventBus: EventBus,
@@ -33,6 +34,13 @@ export class GameScene implements Tickable {
 
     public removeEntity(entity: Entities) {
         this.entities.delete(entity);
+    }
+
+    public addToScore(n: number): void {
+        this.score += n;
+        if (this.score % 10 === 0) {
+            this.starship.shieldBonus();
+        }
     }
 
     private handleCollisions(): void {

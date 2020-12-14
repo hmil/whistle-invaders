@@ -37,6 +37,12 @@ export class Starship extends Entity<'starship'> {
         this.shield -= 1;
     }
 
+    public shieldBonus(): void {
+        if (this.shield < 5) {
+            this.shield++;
+        }
+    }
+
     public draw(ctx: CanvasRenderingContext2D) {
         ctx.save();
         ctx.translate(this.x, this.y);

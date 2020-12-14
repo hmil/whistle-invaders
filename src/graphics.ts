@@ -68,9 +68,16 @@ export class Graphics {
             this.layerBackground(this.ctx);
             this.gameScene.entities.forEach(entity => entity.draw(this.ctx))
             this.drawShield(this.ctx, this.gameScene.starship.shield);
+            this.drawScore(this.ctx, this.gameScene.score);
             this.drawBackground(this.ctx);
             this.drawAsteroids(this.ctx);
         }
+    }
+
+    private drawScore(ctx: CanvasRenderingContext2D, score: number) {
+        ctx.fillStyle = score % 10 === 0 && score !== 0 ? '#4287f5' : '#fff';
+        ctx.font = '30px sans-serif';
+        ctx.fillText(score.toString(), World.WIDTH - 180 + 78, 80);
     }
 
     private drawShield(ctx: CanvasRenderingContext2D, shieldPoint: number) {
