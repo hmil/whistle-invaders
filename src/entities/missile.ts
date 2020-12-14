@@ -24,12 +24,7 @@ export class Missile extends Entity<'missile'> {
     }
 
     public draw(ctx: CanvasRenderingContext2D) {
-<<<<<<< HEAD
         Assets.drawEntity(Assets.missileImage, this.x, this.y, ctx);
         drawBoundingBox(ctx, this);
-=======
-        Assets.drawEntity(Assets.asteroids[0], this.x, this.y, ctx);
-        super.draw(ctx);
->>>>>>> 6f6410a787cd40efb07a73ead56870710bb5ed15
     }
 }
