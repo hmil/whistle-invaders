@@ -1,3 +1,6 @@
+import { GameLoop } from "./game";
+import { EventBus } from "./events";
+import { Controls } from "./controls";
 
 function main() {
     console.log('Hello');
@@ -13,8 +16,9 @@ function main() {
     }
     ctx.fillText('Hello world', 10, 10);
 
-
-    const game = new GameLoop();
+    const eventBus = new EventBus();
+    const controls = new Controls(eventBus);
+    const game = new GameLoop(eventBus, controls);
     game.start();
 }
 
