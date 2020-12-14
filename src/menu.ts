@@ -7,7 +7,8 @@ export class Menu {
     private playBtn = document.getElementById('play-btn') as HTMLElement;
     private tutorialBtn = document.getElementById('tutorial-btn') as HTMLElement;
     private configBtn = document.getElementById('config-btn') as HTMLElement;
-    private menu = document.getElementById('menu') as HTMLCanvasElement;
+    private menu = document.getElementById('menu') as HTMLElement;
+    private debugBox = document.getElementById('checkbox-debug') as HTMLInputElement;
 
     private game = new Game();
 
@@ -15,16 +16,28 @@ export class Menu {
         this.playBtn.addEventListener('click', () => this.play());
         this.tutorialBtn.addEventListener('click', () => this.playTutorial());
         this.configBtn.addEventListener('click', () => this.configure());
+        this.debugBox.checked = window.DEBUG;
+        this.debugBox.addEventListener('change', (evt) => {
+            window.DEBUG = this.debugBox.checked;
+        });
         this.showMenu();
+
+        window.addEventListener('keydown', (evt) => {
+            if (evt.key === 'Escape') {
+                this.toggleMenu();
+            }
+        });
 
         this.game.eventBus.on('gameOver', () => {
             this.game.stop();
-            this.showMenu();
+            setTimeout(() => {
+                this.showMenu();
+            }, 1000);
         });
     }
 
     private play() {
-        this.game.grabInputs();
+        // TODO: Unload the previous level and clean everything up. Maybe create a new game to make sure there isn't anything left behind?
         this.game.loadLevel(Level1);
         this.game.start();
         this.hideMenu();
@@ -37,6 +50,18 @@ export class Menu {
     }
 
     private configure() {}
+
+    public toggleMenu() {
+        if (this.isVisible()) {
+            this.hideMenu();
+        } else {
+            this.showMenu();
+        }
+    }
+
+    private isVisible() {
+        return this.menu.style.display !== 'none';
+    }
 
     public showMenu() {
         this.menu.style.display = '';
