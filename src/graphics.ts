@@ -26,6 +26,8 @@ export class Graphics {
             Assets.drawPlanet(0, 300, 500, this.ctx);
             Assets.drawPlanet(5, 400, 200, this.ctx);
             Assets.drawPlanet(4, 800, 900, this.ctx);
+            Assets.drawPlanet(3, 600, 600, this.ctx);
+            Assets.drawPlanet(3, 1200, 1000, this.ctx);
             Assets.drawPlanet(2, 900, 100, this.ctx);
         }
     }
@@ -56,10 +58,10 @@ enum IMAGE_LIST {
 }
 const raster = 64;
 const planets = [
+    [0, 0],
     [1*raster, 0],
     [2*raster, 0],
     [3*raster, 0],
-    [4*raster, 0],
     [1*raster, raster],
     [2*raster, raster],
     [3*raster, raster],
