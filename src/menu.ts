@@ -16,9 +16,15 @@ export class Menu {
         this.tutorialBtn.addEventListener('click', () => this.playTutorial());
         this.configBtn.addEventListener('click', () => this.configure());
         this.showMenu();
+
+        this.game.eventBus.on('gameOver', () => {
+            this.game.stop();
+            this.showMenu();
+        });
     }
 
     private play() {
+        this.game.grabInputs();
         this.game.loadLevel(Level1);
         this.game.start();
         this.hideMenu();

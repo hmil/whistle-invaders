@@ -145,7 +145,6 @@ export class Graphics {
         
         // push new if to less
         if(newobjectList.length < 5) {
-            console.log('push');
             newobjectList.push([assets[3], World.WIDTH + 100, Math.random() * World.HEIGHT, speed]);
         }
         return newobjectList;

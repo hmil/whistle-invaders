@@ -10,7 +10,7 @@ export class Game {
     private stopped = true;
     private lastTime: number;
 
-    private readonly eventBus = new EventBus();
+    public readonly eventBus = new EventBus();
     private readonly audioController = new AudioController(this.eventBus);
     private readonly controls = new Controls(this.eventBus, this.audioController);
     private readonly scene = new GameScene(this.eventBus, this.controls);
@@ -40,6 +40,7 @@ export class Game {
     }
 
     start() {
+        this.grabInputs();
         this.stopped = false;
         this.level?.load();
         this.loop();

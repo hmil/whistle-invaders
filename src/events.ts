@@ -11,8 +11,11 @@ export interface MissileHitEvent extends BaseEvent<'missileHit'> {
     missile: Missile;
     target: Entities;
 }
+export interface GameOverEvent extends BaseEvent<'gameOver'> {
+    success: boolean;
+}
 
-export type GameEvent = FireEvent | TestEvent | MissileHitEvent;
+export type GameEvent = FireEvent | TestEvent | MissileHitEvent | GameOverEvent;
 
 export type EventType = GameEvent['_type'];
 
@@ -23,7 +26,8 @@ export class EventBus {
     private listeners: { [key in EventType]: EventHandler<any>[] } = {
         fire: [],
         test: [],
-        missileHit: []
+        missileHit: [],
+        gameOver: []
     };
 
     emit(evt: GameEvent): void {
