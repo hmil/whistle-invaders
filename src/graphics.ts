@@ -6,6 +6,8 @@ export class Graphics {
     planets: CanvasGraphObject[];
     asteroids: CanvasGraphObject[];
     shipImage: CanvasGraphObject;
+    time: number = new Date().getTime();
+    offset: number = 0;
    
     constructor(private readonly gameScene: GameScene) {
         const canvas = document.getElementById('screen') as HTMLCanvasElement;
@@ -34,7 +36,8 @@ export class Graphics {
         ]
     }
 
-    updateGraphics = () => {
+    updateGraphics = (time: number) => {
+        const offset = this.calculateBackgroundParalax(time);
         this.drawCanvasScene();
         if (this.ctx) {
             this.drawShip(this.gameScene.starship.x, this.gameScene.starship.y);
@@ -65,6 +68,18 @@ export class Graphics {
 
     private drawCanvasScene() {
         this.clear();
+    }
+
+    calculateBackgroundParalax(newTimeStamp: number) {
+        const oneSecond = 1000;
+        if(this.time + oneSecond < newTimeStamp) {
+            this.time = newTimeStamp;
+            this.offset += 1;
+        }
+    }
+    private drawPalaxBackground(ctx: CanvasRenderingContext2D) {
+        // Assets.drawEntity()
+        // Assets.drawEntity()
     }
 
     drawShip(x: number, y: number) {

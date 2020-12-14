@@ -45,6 +45,6 @@ export class GameLoop {
         // TODO: Update physics
 
         // TODO: Update graphics
-        this.graphics.updateGraphics();
+        this.graphics.updateGraphics(newTime);
     }
 }
