@@ -39,18 +39,12 @@ export class GameLoop {
         }
 
         const newTime = (new Date()).getTime();
+
         this.scene.tick(newTime - this.lastTime);
-        this.lastTime = newTime;
-
         this.level.tick();
+        this.graphics.updateGraphics(newTime);
 
-        // console.log('throttle: ' + this.controls.getCurrentControls().engineThrottle); 
-
-        // TODO: Update physics
-
-        // TODO: Update graphics
-        this.graphics.updateGraphics();
-
+        this.lastTime = newTime;
         requestAnimationFrame(this.loop);
     }
 }
