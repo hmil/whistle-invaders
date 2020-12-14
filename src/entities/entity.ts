@@ -1,7 +1,10 @@
-interface Entity {
+import { Tickable } from "tickable";
+
+export interface Entity extends Tickable {
     x: number;
     y: number;
     speedX: number | null;
     speedY: number | null;
-    tick(deltaTime: number): void;
+    xSize: number;
+    ySize: number;
 }
