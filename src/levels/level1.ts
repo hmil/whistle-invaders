@@ -45,7 +45,7 @@ export class Level1 implements GameLevel {
                     World.WIDTH,
                     ~~(Math.random() * World.HEIGHT),
                     -1 * (~~(Math.random() * 2) + 1),
-                    ~~(Math.random() * 150 + 40));
+                    this.getAsteroidSize());
                 this.standardRules.applyAsteroidRules(asteroid);
                 this.scene.addEntity(asteroid);
             }
@@ -60,6 +60,12 @@ export class Level1 implements GameLevel {
             }
             this.totalDeltaTime %= this.DELTA_TIME_POP;
         }
+    }
+
+    private getAsteroidSize() {
+        const r = Math.random();
+        // Square law: There are more small asteroids than big ones
+        return ~~(r * r * 150 + 40);
     }
 
     unload(): void {

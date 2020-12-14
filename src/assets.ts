@@ -71,6 +71,7 @@ export abstract class Assets {
     public static planets: ReadonlyArray<Sprite>;
     public static asteroids: ReadonlyArray<Sprite>;
     public static shipSprite: Sprite;
+    public static shipDamagedSprite: Sprite;
     
     static getBackground1(howMuch: number){
         return Assets.getSomeAssets(howMuch, [...Assets.backgrounds1]);
@@ -96,6 +97,7 @@ export abstract class Assets {
     }
     public static missileImage: Sprite;
     public static shieldSprite: Sprite;
+    public static bountySprite: Sprite;
 
     private static spriteSheets: Map<string, HTMLImageElement> = new Map();
 
@@ -106,6 +108,8 @@ export abstract class Assets {
         }));
         return loading.then(() => {
             Assets.shipSprite = Assets.createSprite(IMAGE_LIST.SHIP, 90, 210, 0, 0, 310, 978);
+
+            Assets.bountySprite = Assets.createSprite(IMAGE_LIST.PLANETS, 40, 40, 5 * 32, 6 * 32, 32, 32);
 
             Assets.missileImage = Assets.createSprite(IMAGE_LIST.MISSILE);
 

@@ -88,8 +88,7 @@ export class Graphics {
     private clear () {
         this.ctx.save();
         this.ctx.resetTransform();
-        this.ctx.fillStyle = '#181b2b';
-        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.ctx.restore();
     }
 

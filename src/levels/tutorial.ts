@@ -35,9 +35,9 @@ export class TutorialLevel implements GameLevel {
     }
 
     private startBountyDown() {
-        const text = new TextEntity('Navigate your ship down to catch the bounty.');
+        const text = new TextEntity('Navigate your ship down to catch the sphere.');
         this.scene.addEntity(text);
-        const bounty = new Bounty(20, World.HEIGHT - 100, 0);
+        const bounty = new Bounty(100, World.HEIGHT - 100, 0);
         this.scene.addEntity(bounty);
 
         bounty.on('collision', (self, other) => {
@@ -50,9 +50,9 @@ export class TutorialLevel implements GameLevel {
     }
 
     private startBountyUp() {
-        const text = new TextEntity('Navigate your ship up to catch the bounty.');
+        const text = new TextEntity('Navigate your ship up to catch the sphere.');
         this.scene.addEntity(text);
-        const bounty = new Bounty(20, 100, 0);
+        const bounty = new Bounty(100, 100, 0);
         this.scene.addEntity(bounty);
 
         bounty.on('collision', (self, other) => {

@@ -1,5 +1,5 @@
 import { Assets } from "../assets";
-import { drawBoundingBox, Entity } from "./entity";
+import { Entity } from "./entity";
 
 export class Bounty extends Entity<'bounty'> {
     public readonly type = 'bounty';
@@ -24,7 +24,7 @@ export class Bounty extends Entity<'bounty'> {
     }
 
     public draw(ctx: CanvasRenderingContext2D) {
-        Assets.drawSprite(Assets.asteroids[1], this.x, this.y, ctx);
+        Assets.drawSprite(Assets.bountySprite, this.x, this.y, ctx);
         super.draw(ctx);
     }
 }

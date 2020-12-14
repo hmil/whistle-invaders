@@ -4,7 +4,11 @@ import { Assets, Sprite } from "../assets";
 import { Entity } from "./entity";
 
 /** Scale the tiler relative to the hitbox to get a tight fit */
-const TILE_SCALING = 1.25;
+const TILE_SCALING = [
+    1.1,
+    1.25,
+    2.2
+];
 
 export class Asteroid extends Entity<'asteroid'> {
     public readonly type = 'asteroid';
@@ -29,7 +33,8 @@ export class Asteroid extends Entity<'asteroid'> {
         this.ySize = size;
         this.rotation = Math.random() * 2 * Math.PI;
 
-        this.sprite = { ...Assets.asteroids[1], width: size * TILE_SCALING, height: size * TILE_SCALING };
+        const spriteId = Math.floor(Math.random() * Assets.asteroids.length);
+        this.sprite = { ...Assets.asteroids[spriteId], width: size * TILE_SCALING[spriteId], height: size * TILE_SCALING[spriteId] };
 
         this.y = clamp(this.y, 0, World.HEIGHT - this.ySize);
     }
