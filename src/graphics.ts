@@ -67,8 +67,15 @@ export class Graphics {
             this.calculateBackgroundParallax(time);
             this.layerBackground(this.ctx);
             this.gameScene.entities.forEach(entity => entity.draw(this.ctx))
+            this.drawShield(this.ctx, this.gameScene.starship.shield);
             this.drawBackground(this.ctx);
             this.drawAsteroids(this.ctx);
+        }
+    }
+
+    private drawShield(ctx: CanvasRenderingContext2D, shieldPoint: number) {
+        for(let i = 0; i < shieldPoint; i++) {
+            Assets.drawEntity(Assets.shieldImage, World.WIDTH - 180 + 35*i, 10, ctx);
         }
     }
 
