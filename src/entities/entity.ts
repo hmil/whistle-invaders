@@ -1,4 +1,4 @@
-import { Tickable } from "tickable";
+import { Tickable } from "../tickable";
 
 export interface Entity extends Tickable {
     x: number;

@@ -1,3 +1,4 @@
+import { clamp } from "../utils";
 import { Asteroid } from "./asteroid";
 import { Entity } from "./entity";
 
@@ -8,7 +9,10 @@ export class Starship implements Entity {
     public speedY: number;
     public xSize: number;
     public ySize: number;
-    public moveDirection: "UP" | "DOWN" | null = null;
+    public thrustY: number = 0;
+
+
+    private drag = 0.95;
 
     constructor(x: number, y: number, speedY: number, xSize: number, ySzie: number) {
         this.x = x;
@@ -19,13 +23,8 @@ export class Starship implements Entity {
     }
 
     public tick(deltaTime: number): void {
-        if (this.moveDirection) {
-            this.y = (this.moveDirection === "UP" ? -1 : 1) * this.speedY * deltaTime + this.y;
-            if (this.y < 0) {
-                this.y = 0;
-            }
-        }
-        console.log("Starship y pos: " + this.y);
+        this.speedY = (this.speedY + 0.1 * this.thrustY) * this.drag;
+        this.y = clamp(this.speedY * deltaTime + this.y, 0, 1000); // TODO: WORLD_HEIGHT
     }
 
     public asteroidHit(asteroid: Asteroid): void {

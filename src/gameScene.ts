@@ -6,7 +6,7 @@ import { Starship } from "./entities/starship";
 import { Tickable } from "./tickable";
 
 export class GameScene implements Tickable {
-    public starship = new Starship(0, 0, 1, 10, 10);
+    public starship = new Starship(0, 0, 0, 10, 10);
     private missiles: Missile[] = [];
     private asteroids: Asteroid[] = [];
 
@@ -14,7 +14,7 @@ export class GameScene implements Tickable {
 
     public tick(deltaTime: number): void {
         
-        this.starship.moveDirection = this.controls.getCurrentControls().engineThrottle > 0 ? 'UP' : this.controls.getCurrentControls().engineThrottle < 0 ? 'DOWN' : null;
+        this.starship.thrustY = this.controls.getCurrentControls().engineThrottle;
 
         this.starship.tick(deltaTime);
         this.missiles.forEach(x => x.tick(deltaTime));

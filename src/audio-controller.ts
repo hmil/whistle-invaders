@@ -1,3 +1,4 @@
+import { clamp } from "./utils";
 
 export interface CalibrationData {
     minFrequency: number;
@@ -5,7 +6,7 @@ export interface CalibrationData {
 }
 
 export class AudioController {
-    private readonly MAX_SIZE: number;
+    private MAX_SIZE: number = 0;
     private readonly BUFFER_LENGTH = 2048;
 
     // TODO: Let the user calibrate these values
@@ -14,7 +15,7 @@ export class AudioController {
     /** Highest control frequency */
     private hiFreq = 1200;
 
-    private readonly context: AudioContext;
+    private context: AudioContext | null = null;
     private analyser?: AnalyserNode | null;
 
     private buffer = new Float32Array( this.BUFFER_LENGTH );
@@ -26,11 +27,6 @@ export class AudioController {
     private initializing = false;
 
     constructor() {
-        const AudioContext = window.AudioContext || (window as any).webkitAudioContext;
-
-        this.context = new AudioContext();
-        this.MAX_SIZE = Math.max(4,Math.floor(this.context.sampleRate/5000));   // corresponds to a 5kHz signal
-
         const dbgCvs = document.createElement('canvas');
         dbgCvs.classList.add('debug-canvas');
         this.debugCanvas = dbgCvs.getContext('2d');
@@ -62,6 +58,9 @@ export class AudioController {
             return;
         }
         this.initializing = true;
+        const AudioContext = window.AudioContext || (window as any).webkitAudioContext;
+        this.context = new AudioContext();
+        this.MAX_SIZE = Math.max(4,Math.floor(this.context.sampleRate/5000));   // corresponds to a 5kHz signal
         this.getUserMedia({
             "audio": {
                 // TODO: Figure out if need to turn off echo cancellation
@@ -95,6 +94,9 @@ export class AudioController {
     }
 
     private onStream = (stream: MediaStream) => {
+        if (this.context == null) {
+            throw new Error('Not initialized!');
+        }
         // Create an AudioNode from the stream.
         const mediaStreamSource = this.context.createMediaStreamSource(stream);
 
@@ -108,7 +110,7 @@ export class AudioController {
 
     private updatePitch = () => {
         var cycles = new Array();
-        if (this.analyser == null) {
+        if (this.analyser == null || this.context == null) {
             throw new Error('Not initialized!');
         }
         this.analyser.getFloatTimeDomainData( this.buffer );
@@ -141,7 +143,6 @@ export class AudioController {
 
         var ac = this.autoCorrelate( this.context.sampleRate );
 
-
         if (ac === -1) {
             this.currentOuptput = 0;
             this.currentFreq = null;
@@ -149,7 +150,7 @@ export class AudioController {
             this.currentFreq = ac;
             const delta = this.hiFreq - this.loFreq;
             const value = (ac - this.loFreq) / delta - 0.5;
-            this.currentOuptput = Math.min(1, Math.max(-1, value * 2));
+            this.currentOuptput = clamp(value * 2, -1, 1);
         }
 
         // if (ac == -1) {
