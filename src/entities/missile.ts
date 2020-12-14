@@ -17,6 +17,6 @@ export class Missile implements Entity {
     }
 
     public tick(deltaTime: number): void {
-        this.x = this.x + deltaTime*this.speedX;
+        this.x = this.x + deltaTime * this.speedX;
     }
 }

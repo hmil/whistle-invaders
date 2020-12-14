@@ -46,9 +46,8 @@ export class Controls {
     getCurrentControls(): UserControls {
         const audioCtrl = this.audioController.getOutput();
 
-        console.log(this.audioController.getCurrentFrequency());
         return {
-            engineThrottle: audioCtrl === 0 ? this.keyStates.up - this.keyStates.down : audioCtrl
+            engineThrottle: audioCtrl === 0 ? this.keyStates.down - this.keyStates.up : audioCtrl
         };
     }
 

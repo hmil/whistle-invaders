@@ -1,3 +1,4 @@
+import { EventBus } from "./events";
 import { clamp } from "./utils";
 
 export interface CalibrationData {
@@ -6,14 +7,15 @@ export interface CalibrationData {
 }
 
 export class AudioController {
+    private TRIGGER = 0.3;
     private MAX_SIZE: number = 0;
     private readonly BUFFER_LENGTH = 2048;
 
     // TODO: Let the user calibrate these values
     /** Lowest control frequency */
-    private loFreq = 600;
+    private loFreq = 100;
     /** Highest control frequency */
-    private hiFreq = 1200;
+    private hiFreq = 500;
 
     private context: AudioContext | null = null;
     private analyser?: AnalyserNode | null;
@@ -26,7 +28,9 @@ export class AudioController {
     private currentFreq: number | null = null;
     private initializing = false;
 
-    constructor() {
+    private previousLevel = 0;
+
+    constructor(private readonly eventBus: EventBus) {
         const dbgCvs = document.createElement('canvas');
         dbgCvs.classList.add('debug-canvas');
         this.debugCanvas = dbgCvs.getContext('2d');
@@ -115,6 +119,16 @@ export class AudioController {
         }
         this.analyser.getFloatTimeDomainData( this.buffer );
 
+        let currentLevel = 0;
+        for (let i = 0 ; i < this.buffer.length ; i++) {
+            currentLevel = Math.max(Math.abs(this.buffer[i]), currentLevel);
+        }
+
+        if (this.previousLevel > currentLevel + this.TRIGGER) {
+            this.eventBus.emit({ _type: 'fire' });
+        }
+        this.previousLevel = currentLevel;
+
         if (this.debugCanvas) {  // This draws the current waveform, useful for debugging
             this.debugCanvas.clearRect(0, 0, 512, 256);
             this.debugCanvas.strokeStyle = "red";
@@ -152,6 +166,7 @@ export class AudioController {
             const value = (ac - this.loFreq) / delta - 0.5;
             this.currentOuptput = -clamp(value * 2, -1, 1); // Invert such that high pitch goes up and low goes down
         }
+
 
         // if (ac == -1) {
         //     detectorElem.className = "vague";

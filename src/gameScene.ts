@@ -2,24 +2,32 @@ import { Controls } from "controls";
 import { Asteroid } from "entities/asteroid";
 import { Entity } from "entities/entity";
 import { Missile } from "entities/missile";
+import { World } from "./world";
 import { Starship } from "./entities/starship";
 import { Tickable } from "./tickable";
 
 export class GameScene implements Tickable {
-    public starship = new Starship(0, 0, 0, 10, 10);
+    public readonly starship = new Starship(0, 0, 0, 10, 10);
     private missiles: Missile[] = [];
     private asteroids: Asteroid[] = [];
+
+    public readonly world = new World(); // It's a new day, it's a new life... for me
 
     constructor(private readonly controls: Controls) {}
 
     public tick(deltaTime: number): void {
         
+        this.world.tick(deltaTime);
         this.starship.throttle = this.controls.getCurrentControls().engineThrottle;
 
         this.starship.tick(deltaTime);
         this.missiles.forEach(x => x.tick(deltaTime));
         this.asteroids.forEach(x => x.tick(deltaTime));
         this.handleCollisions();
+    }
+
+    public addAsteroid(asteroid: Asteroid) {
+        this.asteroids.push(asteroid);
     }
 
     private handleCollisions(): void {
