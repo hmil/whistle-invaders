@@ -13,6 +13,8 @@ export interface Entity<T extends string = string> extends Tickable {
 }
 
 export function drawBoundingBox(ctx: CanvasRenderingContext2D, entity: Entity) {
-    ctx.strokeStyle = '#0f0';
-    ctx.strokeRect(entity.x, entity.y, entity.xSize, entity.ySize);
+    if (window.DEBUG) {
+        ctx.strokeStyle = '#0f0';
+        ctx.strokeRect(entity.x, entity.y, entity.xSize, entity.ySize);
+    }
 }

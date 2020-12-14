@@ -5,10 +5,9 @@ import { Starship } from "./entities/starship";
 import { Tickable } from "./tickable";
 import { Entities } from "./entities";
 import { EventBus } from "./events";
-import { Assets } from "assets";
 
 export class GameScene implements Tickable {
-    public readonly starship = new Starship(0, 0, 0, 10, 10);
+    public readonly starship = new Starship(0, 0, 0);
     public readonly entities: Set<Entities> = new Set();
 
     public readonly world = new World(); // It's a new day, it's a new life... for me

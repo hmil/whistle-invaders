@@ -1,7 +1,7 @@
 import { World } from "../world";
 import { Assets } from "../assets";
 import { clamp } from "../utils";
-import { Entity } from "./entity";
+import { drawBoundingBox, Entity } from "./entity";
 
 export class Starship implements Entity<'starship'> {
     public readonly type = 'starship';
@@ -18,22 +18,26 @@ export class Starship implements Entity<'starship'> {
     // Power of the engine. Higher makes it go faster
     private thrust = 0.05;
 
-    constructor(x: number, y: number, speedY: number, xSize: number, ySzie: number) {
+    constructor(x: number, y: number, speedY: number) {
         this.x = x;
         this.y = y;
         this.speedY = speedY;
-        this.xSize = xSize;
-        this.ySize = ySzie;
+        this.xSize = 70;
+        this.ySize = 30;
     }
 
     public tick(deltaTime: number): void {
         this.speedY = (this.speedY + this.thrust * this.throttle) * this.drag;
-        this.y = clamp(this.speedY * deltaTime + this.y, 0, 1000); // TODO: WORLD_HEIGHT
+        this.y = clamp(this.speedY * deltaTime + this.y, 0, World.HEIGHT - this.ySize);
     }
 
     public draw(ctx: CanvasRenderingContext2D) {
-        Assets.drawEntity(Assets.planets[0], 100, 100, ctx);
-        ctx.strokeStyle = '#f00';
-        ctx.strokeRect(0, 0, World.WIDTH, World.HEIGHT);
+        ctx.save();
+        ctx.translate(this.x, this.y);
+        ctx.rotate(Math.PI / 2);
+        ctx.translate(0, -this.xSize);
+        ctx.drawImage(Assets.shipImage.image, 0, 0, this.ySize, this.xSize);
+        ctx.restore();
+        drawBoundingBox(ctx, this);
     }
 }

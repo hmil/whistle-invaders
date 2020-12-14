@@ -34,8 +34,6 @@ export class Graphics {
         const width = window.innerWidth * pixelRatio;
         const height = window.innerHeight * pixelRatio;
 
-        this.ctx.resetTransform();
-
         // Step 1: Address high DPI display scaling
         this.canvas.width = width;
         this.canvas.height = height;
@@ -66,7 +64,6 @@ export class Graphics {
         if (this.ctx) {
             this.calculateBackgroundParallax(time);
             this.drawParallaxBackground(this.ctx);
-            this.drawShip(this.gameScene.starship.x, this.gameScene.starship.y);
             this.gameScene.entities.forEach(entity => entity.draw(this.ctx))
             this.drawBackground(this.ctx);
             this.drawAsteroids(this.ctx);
@@ -89,11 +86,19 @@ export class Graphics {
     }
 
     private clear () {
-        this.ctx!.clearRect(0, 0, window.innerWidth, window.innerHeight);
+        this.ctx.save();
+        this.ctx.resetTransform();
+        this.ctx.fillStyle = '#181b2b';
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.ctx.restore();
     }
 
     private drawCanvasScene() {
         this.clear();
+        if (window.DEBUG) {
+            this.ctx.strokeStyle = '#f00';
+            this.ctx.strokeRect(0, 0, World.WIDTH, World.HEIGHT);
+        }
     }
 
     calculateBackgroundParallax(newTimeStamp: number) {
@@ -128,11 +133,5 @@ export class Graphics {
              this.backgroundObjects.push([Assets.planets[0], window.innerWidth, Math.random() * 600, 0]);
         }
         
-    }
-
-    drawShip(x: number, y: number) {
-        if(this.ctx) {
-            this.ctx.drawImage(Assets.shipImage.image, x, y, 30, 60);
-        }
     }
 }
