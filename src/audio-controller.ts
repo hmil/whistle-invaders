@@ -31,13 +31,17 @@ export class AudioController {
     private previousLevel = 0;
 
     constructor(private readonly eventBus: EventBus) {
-        const dbgCvs = document.createElement('canvas');
-        dbgCvs.classList.add('debug-canvas');
-        this.debugCanvas = dbgCvs.getContext('2d');
-        dbgCvs.width = 512;
-        dbgCvs.height = 128;
-
-        document.body.appendChild(dbgCvs);
+        if (window.DEBUG) {
+            const dbgCvs = document.createElement('canvas');
+            dbgCvs.classList.add('debug-canvas');
+            this.debugCanvas = dbgCvs.getContext('2d');
+            dbgCvs.width = 512;
+            dbgCvs.height = 128;
+    
+            document.body.appendChild(dbgCvs);
+        } else {
+            this.debugCanvas = null;
+        }
     }
 
     public calibrate(data: CalibrationData) {
@@ -129,7 +133,7 @@ export class AudioController {
         }
         this.previousLevel = currentLevel;
 
-        if (this.debugCanvas) {  // This draws the current waveform, useful for debugging
+        if (this.debugCanvas && window.DEBUG) {  // This draws the current waveform, useful for debugging
             this.debugCanvas.clearRect(0, 0, 512, 256);
             this.debugCanvas.strokeStyle = "red";
             this.debugCanvas.beginPath();

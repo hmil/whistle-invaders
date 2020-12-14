@@ -8,6 +8,9 @@ import { Graphics } from './graphics';
 import { TutorialLevel } from './levels/tutorial';
 
 function main() {
+    // ENABLE DEBUG RENDERING
+    window.DEBUG = true;
+
     Assets.init();
     const eventBus = new EventBus();
     const audioController = new AudioController(eventBus);
