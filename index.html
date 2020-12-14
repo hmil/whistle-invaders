@@ -12,6 +12,7 @@
             width: 100%;
             overflow: hidden;
             background-color: #181b2b;
+            font-family: Arial, Helvetica, sans-serif;
         }
 
         .debug-canvas {
@@ -27,9 +28,61 @@
             height: 100%;
         }
 
+        .menu-container {
+            /** Hides menu during loading */
+            position: absolute;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .menu-box {
+            width: 500px;
+            height: 400px;
+            background: red;
+            border-radius: 20px;
+            background-color: #252627;
+            border: 1px #5f5f5f solid;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 1px 1px 10px 1px #73ec8240;
+        }
+
+        .btn {
+            cursor: pointer;
+            padding: 10px;
+            width: 300px;
+            text-align: center;
+            border: 1px #000 solid;
+            color: white;
+        }
+
+        .btn:hover {
+            background-color: #333;
+        }
+
+        .spacer {
+            height: 40px;
+        }
+
     </style>
 </head>
 <body>
+    <div id="menu" style="display: none">
+        <div class="menu-container">
+            <div class="menu-box">
+                <div class="btn" id="config-btn">Configure</div>
+                <div class="spacer"></div>
+                <div class="btn" id="tutorial-btn">Tutorial</div>
+                <div class="spacer"></div>
+                <div class="btn" id="play-btn">Play</div>
+            </div>
+        </div>
+    </div>
     <canvas id="screen"></canvas>
     <script src="dist/vendors.bundle.js"></script>
     <script src="dist/app.bundle.js"></script>
