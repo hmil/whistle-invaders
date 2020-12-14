@@ -1,35 +1,62 @@
 import { GameScene } from 'gameScene';
 
 export class Graphics {
-    ctx: CanvasRenderingContext2D | null = null;
+    ctx: CanvasRenderingContext2D;
+
+    planets: CanvasGraphObject[];
+    asteroids: CanvasGraphObject[];
     shipImage: CanvasGraphObject;
    
     constructor(private readonly gameScene: GameScene) {
         const canvas = document.getElementById('screen') as HTMLCanvasElement;
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
+        const context = canvas.getContext('2d');
 
-        this.ctx = canvas.getContext('2d');
-
-        if (this.ctx == null) {
+        if (context == null) {
             throw new Error("Your browser doesn't support canvas");
         }
+        this.ctx = context;
 
         this.shipImage = Assets.createImage(IMAGE_LIST.SHIP);
+        this.planets = [
+            Assets.createPlanet(0, planets[0][0], planets[0][1]),
+            Assets.createPlanet(1, planets[1][0], planets[1][1]),
+            Assets.createPlanet(2, planets[2][0], planets[2][1]),
+            Assets.createPlanet(3, planets[3][0], planets[3][1]),
+            Assets.createPlanet(4, planets[4][0], planets[4][1]),
+            Assets.createPlanet(5, planets[5][0], planets[5][1]),
+        ]
+        this.asteroids = [
+            Assets.createAsteroids(0, asteroids[0][0], asteroids[0][1]),
+            Assets.createAsteroids(1, asteroids[1][0], asteroids[1][1]),
+            Assets.createAsteroids(2, asteroids[2][0], asteroids[2][1]),
+        ]
     }
 
     updateGraphics = () => {
         this.drawCanvasScene();
-        if(this.ctx) {
+        if (this.ctx) {
             this.drawShip(this.gameScene.starship.x, this.gameScene.starship.y);
-            Assets.drawPlanet(1, 100, 100, this.ctx);
-            Assets.drawPlanet(0, 300, 500, this.ctx);
-            Assets.drawPlanet(5, 400, 200, this.ctx);
-            Assets.drawPlanet(4, 800, 900, this.ctx);
-            Assets.drawPlanet(3, 600, 600, this.ctx);
-            Assets.drawPlanet(3, 1200, 1000, this.ctx);
-            Assets.drawPlanet(2, 900, 100, this.ctx);
+            // this.gameScene.asteroids.forEach(a => Assets.drawEntity(this.asteroids[0], a.x, a.y, this.ctx))
+            this.drawBackground(this.ctx);
+            this.drawAsteroids(this.ctx);
         }
+    }
+
+    private drawAsteroids(ctx: CanvasRenderingContext2D) {
+        Assets.drawEntity(this.asteroids[0], 180, 230, ctx);
+        Assets.drawEntity(this.asteroids[1], 320, 670, ctx);
+    }
+
+    private drawBackground(ctx: CanvasRenderingContext2D) {
+        // planets
+        Assets.drawEntity(this.planets[0], 100, 100, ctx);
+        Assets.drawEntity(this.planets[1], 300, 500, ctx);
+        Assets.drawEntity(this.planets[2], 400, 200, ctx);
+        Assets.drawEntity(this.planets[3], 600, 530, ctx);
+        Assets.drawEntity(this.planets[4], 333, 441, ctx);
+        Assets.drawEntity(this.planets[5], 220, 107, ctx);
     }
 
     private clear () {
@@ -49,7 +76,10 @@ export class Graphics {
 interface CanvasGraphObject {
     image: HTMLImageElement,
     width: number,
-    height: number
+    height: number,
+    posx?: number,
+    posy?: number,
+
 }
 enum IMAGE_LIST {
     SHIP = "images/ship.png",
@@ -57,6 +87,7 @@ enum IMAGE_LIST {
     ELON = "images/ship.png",
 }
 const raster = 64;
+const smallraster = 32;
 const planets = [
     [0, 0],
     [1*raster, 0],
@@ -70,6 +101,22 @@ const planets = [
     [2*raster, 2*raster],
     [3*raster, 2*raster],
     [4*raster, 2*raster],
+
+    [0,             3*raster],
+    [1*smallraster, 3*raster],
+    [2*smallraster, 3*raster],
+    [3*smallraster, 3*raster],
+    [4*smallraster, 3*raster],
+    [5*smallraster, 3*raster],
+    [6*smallraster, 3*raster],
+    [7*smallraster, 3*raster],
+]
+const asteroids = [
+    [0,             3*raster+smallraster],
+    [1*smallraster, 3*raster+smallraster],
+    [2*smallraster, 3*raster+smallraster],
+    [3*smallraster, 3*raster+smallraster],
+    [4*smallraster, 3*raster+smallraster],
 ]
 
 class Assets {
@@ -78,19 +125,21 @@ class Assets {
         shipImage.src = image;
         return {image: shipImage, width: 30, height: 60};
     }
-   
-    
-    
-    static createPlanet = (number: number): CanvasGraphObject => {
+    static createPlanet = (number: number, posx: number, posy: number): CanvasGraphObject => {
         const image: IMAGE_LIST = IMAGE_LIST.PLANETS
-        const shipImage = new Image();
-        shipImage.src = image;
-        return {image: shipImage, width: 64, height: 64};
+        const img = new Image();
+        img.src = image;
+        return {image: img, width: 64, height: 64, posx, posy};
+    }
+    static createAsteroids = (number: number, posx: number, posy: number): CanvasGraphObject => {
+        const image: IMAGE_LIST = IMAGE_LIST.PLANETS
+        const img = new Image();
+        img.src = image;
+        return {image: img, width: 32, height: 32, posx, posy};
     }
     
-    static drawPlanet = (whichPlanet: number, x: number, y:number, ctx: CanvasRenderingContext2D): void => {
-        const planet = Assets.createPlanet(whichPlanet);
-        ctx.drawImage(planet.image, planets[whichPlanet][0], planets[whichPlanet][1], planet.width, planet.height, x,y, planet.width, planet.height);
+    static drawEntity = (whichPlanet: CanvasGraphObject, x: number, y:number, ctx: CanvasRenderingContext2D): void => {
+        ctx.drawImage(whichPlanet.image, whichPlanet.posx || 0, whichPlanet.posy || 0, whichPlanet.width, whichPlanet.height, x,y, whichPlanet.width, whichPlanet.height);
     }
 }
 
