@@ -1,3 +1,4 @@
+import { World } from "../world";
 import { Assets } from "../assets";
 import { clamp } from "../utils";
 import { Entity } from "./entity";
@@ -32,5 +33,7 @@ export class Starship implements Entity<'starship'> {
 
     public draw(ctx: CanvasRenderingContext2D) {
         Assets.drawEntity(Assets.planets[0], 100, 100, ctx);
+        ctx.strokeStyle = '#f00';
+        ctx.strokeRect(0, 0, World.WIDTH, World.HEIGHT);
     }
 }
