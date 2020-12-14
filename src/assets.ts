@@ -14,6 +14,17 @@ enum IMAGE_LIST {
 }
 const raster = 64;
 const smallraster = 32;
+const backgrounds = [
+    [4*raster, raster + (raster/2)],
+    [4*raster, raster + (raster/2) * 2],
+    [4*raster, raster + (raster/2)],
+    [4*raster, raster + (raster/2) * 2],
+    [4*raster, raster + (raster/2)],
+    [4*raster, raster + (raster/2) * 2],
+    [4*raster, raster + (raster/2)],
+    [4*raster, raster + (raster/2) * 2],
+    
+];
 const planets = [
     [0, 0],
     [1*raster, 0],
@@ -48,6 +59,7 @@ const asteroids = [
 
 export abstract class Assets {
 
+    public static backgrounds: ReadonlyArray<CanvasGraphObject>;
     public static planets: ReadonlyArray<CanvasGraphObject>;
     public static asteroids: ReadonlyArray<CanvasGraphObject>;
     public static shipImage: CanvasGraphObject;
@@ -55,19 +67,27 @@ export abstract class Assets {
     public static init() {
         Assets.shipImage = Assets.createImage(IMAGE_LIST.SHIP);
 
+        Assets.backgrounds = [
+            Assets.createBackgrounds(backgrounds[0][0], backgrounds[0][1]),
+            Assets.createBackgrounds(backgrounds[1][0], backgrounds[1][1]),
+            Assets.createBackgrounds(backgrounds[1][0], backgrounds[1][1]),
+            Assets.createBackgrounds(backgrounds[1][0], backgrounds[1][1]),
+            Assets.createBackgrounds(backgrounds[1][0], backgrounds[1][1]),
+            Assets.createBackgrounds(backgrounds[2][0], backgrounds[2][1]),
+        ];
         Assets.planets = [
-            Assets.createPlanet(0, planets[0][0], planets[0][1]),
-            Assets.createPlanet(1, planets[1][0], planets[1][1]),
-            Assets.createPlanet(2, planets[2][0], planets[2][1]),
-            Assets.createPlanet(3, planets[3][0], planets[3][1]),
-            Assets.createPlanet(4, planets[4][0], planets[4][1]),
-            Assets.createPlanet(5, planets[5][0], planets[5][1]),
+            Assets.createPlanet(planets[0][0], planets[0][1]),
+            Assets.createPlanet(planets[1][0], planets[1][1]),
+            Assets.createPlanet(planets[2][0], planets[2][1]),
+            Assets.createPlanet(planets[3][0], planets[3][1]),
+            Assets.createPlanet(planets[4][0], planets[4][1]),
+            Assets.createPlanet(planets[5][0], planets[5][1]),
         ];
 
         Assets.asteroids = [
-            Assets.createAsteroids(0, asteroids[0][0], asteroids[0][1]),
-            Assets.createAsteroids(1, asteroids[1][0], asteroids[1][1]),
-            Assets.createAsteroids(2, asteroids[2][0], asteroids[2][1]),
+            Assets.createAsteroids(asteroids[0][0], asteroids[0][1]),
+            Assets.createAsteroids(asteroids[1][0], asteroids[1][1]),
+            Assets.createAsteroids(asteroids[2][0], asteroids[2][1]),
         ];
     }
 
@@ -78,14 +98,20 @@ export abstract class Assets {
         return {image: shipImage, width: 30, height: 60};
     }
 
-    private static createPlanet(number: number, posx: number, posy: number): CanvasGraphObject {
+    private static createBackgrounds(posx: number, posy: number): CanvasGraphObject {
+        const image: IMAGE_LIST = IMAGE_LIST.PLANETS
+        const img = new Image();
+        img.src = image;
+        return {image: img, width: 64, height: 64, posx, posy};
+    }
+    private static createPlanet(posx: number, posy: number): CanvasGraphObject {
         const image: IMAGE_LIST = IMAGE_LIST.PLANETS
         const img = new Image();
         img.src = image;
         return {image: img, width: 64, height: 64, posx, posy};
     }
 
-    private static createAsteroids(number: number, posx: number, posy: number): CanvasGraphObject {
+    private static createAsteroids(posx: number, posy: number): CanvasGraphObject {
         const image: IMAGE_LIST = IMAGE_LIST.PLANETS
         const img = new Image();
         img.src = image;
