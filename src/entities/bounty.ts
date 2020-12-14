@@ -24,7 +24,7 @@ export class Bounty extends Entity<'bounty'> {
     }
 
     public draw(ctx: CanvasRenderingContext2D) {
-        Assets.drawEntity(Assets.asteroids[1], this.x, this.y, ctx);
+        Assets.drawSprite(Assets.asteroids[1], this.x, this.y, ctx);
         super.draw(ctx);
     }
 }

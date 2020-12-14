@@ -48,7 +48,7 @@ export class Starship extends Entity<'starship'> {
         ctx.translate(this.x, this.y);
         ctx.rotate(Math.PI / 2);
         ctx.translate(0, -this.xSize);
-        ctx.drawImage(Assets.shipImage.image, 0, 0, this.ySize, this.xSize);
+        ctx.drawImage(Assets.shipSprite.source, 0, 0, this.ySize, this.xSize);
         ctx.restore();
         super.draw(ctx);
     }

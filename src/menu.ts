@@ -9,10 +9,12 @@ export class Menu {
     private configBtn = document.getElementById('config-btn') as HTMLElement;
     private menu = document.getElementById('menu') as HTMLElement;
     private debugBox = document.getElementById('checkbox-debug') as HTMLInputElement;
+    private loading = document.getElementById('loading') as HTMLInputElement;
 
     private game = new Game();
 
     constructor() {
+        this.loading.style.display = 'none';
         this.playBtn.addEventListener('click', () => this.play());
         this.tutorialBtn.addEventListener('click', () => this.playTutorial());
         this.configBtn.addEventListener('click', () => this.configure());

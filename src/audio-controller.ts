@@ -33,7 +33,7 @@ export class AudioController {
     constructor(private readonly eventBus: EventBus) {
         if (window.DEBUG) {
             const dbgCvs = document.createElement('canvas');
-            // dbgCvs.classList.add('debug-canvas');
+            dbgCvs.classList.add('debug-canvas');
             this.debugCanvas = dbgCvs.getContext('2d');
             dbgCvs.width = 512;
             dbgCvs.height = 128;

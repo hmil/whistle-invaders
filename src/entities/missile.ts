@@ -24,7 +24,7 @@ export class Missile extends Entity<'missile'> {
     }
 
     public draw(ctx: CanvasRenderingContext2D) {
-        Assets.drawEntity(Assets.missileImage, this.x, this.y, ctx);
+        Assets.drawSprite(Assets.missileImage, this.x, this.y, ctx);
         super.draw(ctx);
     }
 }

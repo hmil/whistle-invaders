@@ -1,7 +1,7 @@
 import { clamp } from "../utils";
 import { World } from "../world";
 import { Assets } from "../assets";
-import { drawBoundingBox, Entity } from "./entity";
+import { Entity } from "./entity";
 import { Missile } from "./missile";
 
 export class Asteroid extends Entity<'asteroid'> {
@@ -13,13 +13,13 @@ export class Asteroid extends Entity<'asteroid'> {
     public xSize: number;
     public ySize: number;
 
-    constructor(x: number, y: number, speedX: number, xSize: number, ySzie: number) {
+    constructor(x: number, y: number, speedX: number) {
         super();
         this.x = x;
         this.y = y;
         this.speedX = speedX;
-        this.xSize = xSize;
-        this.ySize = ySzie;
+        this.xSize = 40;
+        this.ySize = 40;
 
         this.y = clamp(this.y, 0, World.HEIGHT - this.ySize);
     }
@@ -28,16 +28,8 @@ export class Asteroid extends Entity<'asteroid'> {
         this.x = this.x + deltaTime*this.speedX * 0.25;
     }
 
-    public missileHit(missile: Missile): void {
-
-    }
-
-    public starshipHit(): void {
-        
-    }
-
     public draw(ctx: CanvasRenderingContext2D) {
-        Assets.drawEntity(Assets.asteroids[1], this.x, this.y, ctx);
+        Assets.drawSprite(Assets.asteroids[1], this.x, this.y, ctx);
         super.draw(ctx);
     }
 }

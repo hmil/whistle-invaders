@@ -1,11 +1,13 @@
 import { World } from './world';
-import { Assets, CanvasGraphObject } from './assets';
+import { Assets, Sprite } from './assets';
 
 import { GameScene } from './gameScene';
-type BackgroundObject = [CanvasGraphObject, number, number, number];
+type BackgroundObject = [Sprite, number, number, number];
 export class Graphics {
     private readonly ctx: CanvasRenderingContext2D;
     private readonly canvas: HTMLCanvasElement;
+
+    private scaling = 1;
     
     time: number = new Date().getTime();
     backgroundObjectsLvl1: BackgroundObject[] = [];
@@ -33,30 +35,29 @@ export class Graphics {
      */
     private initTransforms() {
         const pixelRatio = window.devicePixelRatio;
-        const width = window.innerWidth * pixelRatio;
-        const height = window.innerHeight * pixelRatio;
 
-        // Step 1: Address high DPI display scaling
-        this.canvas.width = width;
-        this.canvas.height = height;
-        this.ctx.scale(pixelRatio, pixelRatio);
-
-        // Step 2: Address scene scaling
         // Figure out if we are height-bound or width-bound
         const heightRatio = window.innerHeight / World.HEIGHT;
         const widthRatio = window.innerWidth / World.WIDTH;
         if (heightRatio < widthRatio) {
             // Fit to height
-            this.ctx.scale(heightRatio, heightRatio);
-            // Center horizontally
-            this.ctx.translate((window.innerWidth - heightRatio * World.WIDTH) / 2, 0);
+            this.scaling = heightRatio;
         } else {
             // Fit to width
-            this.ctx.scale(widthRatio, widthRatio);
-            // Center vertically
-            this.ctx.translate(0, (window.innerHeight - widthRatio * World.HEIGHT) / 2);
+            this.scaling = widthRatio;
         }
 
+        const width = this.scaling * World.WIDTH;
+        const height = this.scaling * World.HEIGHT;
+
+        // Resize canvas
+        this.canvas.style.width = `${width}px`;
+        this.canvas.style.height = `${height}px`;
+        this.canvas.width = width * pixelRatio;
+        this.canvas.height = height * pixelRatio;
+
+        this.ctx.scale(this.scaling * pixelRatio, this.scaling * pixelRatio);
+        
         // Disable smoothing because we use pixel art. Pixel art doesn't need to be smoothed
         this.ctx.imageSmoothingEnabled = false;
     }
@@ -69,7 +70,6 @@ export class Graphics {
             this.gameScene.entities.forEach(entity => entity.draw(this.ctx))
             this.drawShield(this.ctx, this.gameScene.starship.shield);
             this.drawScore(this.ctx, this.gameScene.score);
-            this.drawAsteroids(this.ctx);
         }
     }
 
@@ -81,20 +81,15 @@ export class Graphics {
 
     private drawShield(ctx: CanvasRenderingContext2D, shieldPoint: number) {
         for(let i = 0; i < shieldPoint; i++) {
-            Assets.drawEntity(Assets.shieldImage, World.WIDTH - 180 + 35*i, 10, ctx);
+            Assets.drawSprite(Assets.shieldImage, World.WIDTH - 180 + 35*i, 10, ctx);
         }
-    }
-
-    private drawAsteroids(ctx: CanvasRenderingContext2D) {
-        Assets.drawEntity(Assets.asteroids[0], 180, 230, ctx);
-        Assets.drawEntity(Assets.asteroids[1], 320, 670, ctx);
     }
 
     private clear () {
         this.ctx.save();
         this.ctx.resetTransform();
         this.ctx.fillStyle = '#181b2b';
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
         this.ctx.restore();
     }
 
@@ -117,15 +112,19 @@ export class Graphics {
     }
 
     private layerBackground(ctx: CanvasRenderingContext2D) {
+        this.ctx.globalCompositeOperation = '';
         this.backgroundObjectsLvl3 = this.drawParallaxBackground(ctx, this.backgroundObjectsLvl3, 1, () => Assets.getBackground1(4), 0.3);
-        this.backgroundObjectsLvl2 = this.drawParallaxBackground(ctx, this.backgroundObjectsLvl2, 2, () => Assets.getBackground2(40), 0.5);
-        this.backgroundObjectsLvl1 = this.drawParallaxBackground(ctx, this.backgroundObjectsLvl1, 8, () => Assets.getPlanets(15), 0.4);
+        this.backgroundObjectsLvl2 = this.drawParallaxBackground(ctx, this.backgroundObjectsLvl2, 2, () => Assets.getBackground2(12), 0.3);
+        this.backgroundObjectsLvl1 = this.drawParallaxBackground(ctx, this.backgroundObjectsLvl1, 2.5, () => Assets.getPlanets(15), 0.2);
     }
 
-    private drawParallaxBackground(ctx: CanvasRenderingContext2D, objectList: BackgroundObject[], speed: number, assets: () => CanvasGraphObject[], opacity: number): BackgroundObject[] {
+    private drawParallaxBackground(ctx: CanvasRenderingContext2D, objectList: BackgroundObject[], speed: number, assets: () => Sprite[], opacity: number): BackgroundObject[] {
+
+        const SAFETY_MARGIN = 100;
+
         if(objectList.length == 0) {
             const all: BackgroundObject[] = assets().map(e => {
-                return [e, World.WIDTH - Math.random() * 1200, Math.random() * World.HEIGHT, 0]
+                return [e, World.WIDTH - Math.random() * (World.WIDTH - SAFETY_MARGIN), Math.random() * World.HEIGHT, 0]
             });
             return all;
         }
@@ -133,12 +132,12 @@ export class Graphics {
        
         const drawAndMap = (speed: number) => ( [p, x, y, offset]: BackgroundObject ): BackgroundObject => {
             const pos = World.WIDTH - x - (offset * speed);
-            Assets.drawEntity(p, pos, y, ctx, opacity);
+            Assets.drawSprite(p, pos, y, ctx, opacity);
             return [p, x, y, offset];
         };
 
         let newBackgroundList: BackgroundObject[] = objectList
-            .filter(([p, x, y, offset]) => World.WIDTH - x - (offset * speed) > -100)
+            .filter(([p, x, y, offset]) => (World.WIDTH - x - (offset * speed)) > -SAFETY_MARGIN)
             .map(drawAndMap(speed));
         // push new if to less
         if (newBackgroundList.length < objectList.length ) {

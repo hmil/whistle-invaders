@@ -19,7 +19,7 @@ export class TextEntity extends Entity<'text'> {
 
     public draw(ctx: CanvasRenderingContext2D) {
         ctx.fillStyle = '#fff';
-        ctx.font = '30px sans-serif';
+        ctx.font = '30px monospace';
         ctx.fillText(this.text, this.x, this.y);
         super.draw(ctx);
     }

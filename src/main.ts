@@ -3,10 +3,11 @@ import { Assets } from './assets';
 
 function main() {
     // ENABLE DEBUG RENDERING
-    window.DEBUG = true;
-    Assets.init();
+    // window.DEBUG = true;
+    Assets.init().then(() => {
+        new Menu();
+    });
 
-    new Menu();
 }
 
 window.addEventListener('load', main);

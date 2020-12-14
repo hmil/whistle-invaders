@@ -23,7 +23,7 @@ export class Level1 implements GameLevel {
         this.standardRules.applyStandardRules();
 
         for (let i = 0 ; i < 5 ; i++) {
-            this.scene.addEntity(new Asteroid(~~(Math.random() * World.WIDTH), ~~(Math.random() * World.HEIGHT), -1 * (~~(Math.random() * 2) + 1), 40, 40));
+            this.scene.addEntity(new Asteroid(~~(Math.random() * World.WIDTH), ~~(Math.random() * World.HEIGHT), -1 * (~~(Math.random() * 2) + 1)));
         }
     }
 
@@ -36,7 +36,7 @@ export class Level1 implements GameLevel {
 
         if (this.totalDeltaTime > this.DELTA_TIME_POP) {
             for (let i = 0 ; i < ~~(Math.random() * 5) ; i++) {
-                const asteroid = new Asteroid(World.WIDTH, ~~(Math.random() * World.HEIGHT), -1 * (~~(Math.random() * 2) + 1), 40, 40);
+                const asteroid = new Asteroid(World.WIDTH, ~~(Math.random() * World.HEIGHT), -1 * (~~(Math.random() * 2) + 1));
                 asteroid.on('collision', (self, other) => {
                     if (other.type === 'starship') {
                         this.scene.removeEntity(asteroid);

@@ -37,7 +37,7 @@ export class TutorialLevel implements GameLevel {
     private startBountyDown() {
         const text = new TextEntity('Navigate your ship down to catch the bounty.');
         this.scene.addEntity(text);
-        const bounty = new Bounty(0, World.HEIGHT - 100, 0);
+        const bounty = new Bounty(20, World.HEIGHT - 100, 0);
         this.scene.addEntity(bounty);
 
         bounty.on('collision', (self, other) => {
@@ -52,7 +52,7 @@ export class TutorialLevel implements GameLevel {
     private startBountyUp() {
         const text = new TextEntity('Navigate your ship up to catch the bounty.');
         this.scene.addEntity(text);
-        const bounty = new Bounty(0, 100, 0);
+        const bounty = new Bounty(20, 100, 0);
         this.scene.addEntity(bounty);
 
         bounty.on('collision', (self, other) => {
@@ -67,7 +67,7 @@ export class TutorialLevel implements GameLevel {
     private startShootingPractice() {
         const text = new TextEntity('Scream to fire a missile at the asteroid!');
         this.scene.addEntity(text);
-        const target = new Asteroid(World.WIDTH - 200, World.HEIGHT / 2, 0, 40, 40);
+        const target = new Asteroid(World.WIDTH - 200, World.HEIGHT / 2, 0);
         this.scene.addEntity(target);
 
         target.on('collision', (self, other) => {
