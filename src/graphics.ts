@@ -2,13 +2,15 @@ import { World } from './world';
 import { Assets, CanvasGraphObject } from './assets';
 
 import { GameScene } from './gameScene';
-
+type BackgroundObject = [CanvasGraphObject, number, number, number];
 export class Graphics {
     private readonly ctx: CanvasRenderingContext2D;
     private readonly canvas: HTMLCanvasElement;
     
     time: number = new Date().getTime();
-    backgroundObjects: [CanvasGraphObject, number, number, number][] = [];
+    backgroundObjectsLvl1: BackgroundObject[] = [];
+    backgroundObjectsLvl2: BackgroundObject[] = [];
+    backgroundObjectsLvl3: BackgroundObject[] = [];
    
     constructor(
             private readonly gameScene: GameScene) {
@@ -63,7 +65,7 @@ export class Graphics {
         this.drawCanvasScene();
         if (this.ctx) {
             this.calculateBackgroundParallax(time);
-            this.drawParallaxBackground(this.ctx);
+            this.layerBackground(this.ctx);
             this.gameScene.entities.forEach(entity => entity.draw(this.ctx))
             this.drawBackground(this.ctx);
             this.drawAsteroids(this.ctx);
@@ -106,32 +108,47 @@ export class Graphics {
         if(this.time + oneSecond < newTimeStamp) {
             this.time = newTimeStamp;
             //  this.offset += 1;
-            this.backgroundObjects = this.backgroundObjects.map(([p, x, y, offset] )=> [p, x, y, offset +1]);
+            this.backgroundObjectsLvl1 = this.backgroundObjectsLvl1.map(([p, x, y, offset] )=> [p, x, y, offset +1]);
+            this.backgroundObjectsLvl2 = this.backgroundObjectsLvl2.map(([p, x, y, offset] )=> [p, x, y, offset +1]);
+            this.backgroundObjectsLvl3 = this.backgroundObjectsLvl3.map(([p, x, y, offset] )=> [p, x, y, offset +1]);
         }
     }
-    private drawParallaxBackground(ctx: CanvasRenderingContext2D) {
-        if(this.backgroundObjects.length == 0) {
-            this.backgroundObjects = [
+
+    private layerBackground(ctx: CanvasRenderingContext2D) {
+        this.backgroundObjectsLvl3 = this.drawParallaxBackground(ctx, this.backgroundObjectsLvl3, 1);
+        this.backgroundObjectsLvl2 = this.drawParallaxBackground(ctx, this.backgroundObjectsLvl2, 6);
+        this.backgroundObjectsLvl1 = this.drawParallaxBackground(ctx, this.backgroundObjectsLvl1, 20);
+    }
+
+    private drawParallaxBackground(ctx: CanvasRenderingContext2D, objectList: BackgroundObject[], speed: number): BackgroundObject[] {
+
+        if(objectList.length == 0) {
+            return [
                 [Assets.planets[0], window.innerWidth - Math.random() * 1200, Math.random() * 600, 0], 
                 [Assets.planets[1], window.innerWidth - Math.random() * 1200, Math.random() * 600, 0], 
                 [Assets.planets[2], window.innerWidth - Math.random() * 1200, Math.random() * 600, 0], 
                 [Assets.planets[3], window.innerWidth - Math.random() * 1200, Math.random() * 600, 0]
             ];
         }
-
-        this.backgroundObjects = this.backgroundObjects.map( ([p, x, y, offset])=> {
-            const pos = window.innerWidth - x - (offset* 10);
+        
+       
+        const drawAndMap = (speed: number) => ( [p, x, y, offset]: BackgroundObject ): BackgroundObject => {
+            const pos = window.innerWidth - x - (offset * speed);
             Assets.drawEntity(p, pos, y, ctx);
             return [p, x, y, offset];
-        })
+        };
+
+        let newobjectList = objectList.map(drawAndMap(speed));
+        
         // remove stuff out of canvas
-        this.backgroundObjects = this.backgroundObjects.filter(([p, x, y, offset]) => window.innerWidth - x - offset > -100);
+        newobjectList = newobjectList.filter(([p, x, y, offset]) => window.innerWidth - x - offset > -100);
         
         // push new if to less
-        if(this.backgroundObjects.length < 5) {
+        if(newobjectList.length < 5) {
             console.log('push');
-             this.backgroundObjects.push([Assets.planets[0], window.innerWidth, Math.random() * 600, 0]);
+            // newobjectList.push([Assets.planets[0], window.innerWidth, Math.random() * 600, 0]);
         }
+        return newobjectList;
         
     }
 }
