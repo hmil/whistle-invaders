@@ -22,7 +22,21 @@ export class GameScene implements Tickable {
         this.handleCollisions();
     }
 
-    private handleCollisions(): void {  
+    private handleCollisions(): void {
+        this.asteroids.forEach(asteroid => {
+            this.missiles.forEach(missile => {
+                if (this.collisionDetection(asteroid, missile)) {
+                    asteroid.missileHit(missile);
+                }
+            });
+        });
+
+        this.asteroids.forEach(asteroid => {
+            if (this.collisionDetection(this.starship, asteroid)) {
+                this.starship.asteroidHit(asteroid);
+                asteroid.starshipHit();
+            }
+        });
     }
 
     private collisionDetection(t1: Entity, t2: Entity): boolean {

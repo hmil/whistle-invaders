@@ -1,4 +1,5 @@
 import { Entity } from "./entity";
+import { Missile } from "./missile";
 
 export class Asteroid implements Entity {
     public x: number;
@@ -18,5 +19,13 @@ export class Asteroid implements Entity {
 
     public tick(deltaTime: number): void {
         this.x = this.x + deltaTime*this.speedX;
+    }
+
+    public missileHit(missile: Missile): void {
+
+    }
+
+    public starshipHit(): void {
+        
     }
 }
