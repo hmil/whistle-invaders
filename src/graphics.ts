@@ -81,7 +81,7 @@ export class Graphics {
 
     private drawShield(ctx: CanvasRenderingContext2D, shieldPoint: number) {
         for(let i = 0; i < shieldPoint; i++) {
-            Assets.drawSprite(Assets.shieldImage, World.WIDTH - 180 + 35*i, 10, ctx);
+            Assets.drawSprite(Assets.shieldSprite, World.WIDTH - 180 + 35*i, 10, ctx);
         }
     }
 

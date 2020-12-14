@@ -1,3 +1,5 @@
+import { Asteroid } from '../../entities/asteroid';
+import { Shield } from '../../entities/shield';
 import { Assets } from '../../assets';
 import { Missile } from '../../entities/missile';
 import { EventBus } from '../../events';
@@ -39,6 +41,24 @@ export class StandardRules {
                     this.scene.removeEntity(evt.target);
                     this.scene.removeEntity(evt.missile);
                     this.scene.addToScore(1);
+            }
+        });
+    }
+
+    applyAsteroidRules(asteroid: Asteroid) {
+        asteroid.on('collision', (self, other) => {
+            if (other.type === 'starship') {
+                this.scene.removeEntity(asteroid);
+                other.hit();
+            }
+        });
+    }
+
+    applyShieldRules(shield: Shield) {
+        shield.on('collision', (self, other) => {
+            if (other.type === 'starship') {
+                this.scene.removeEntity(shield);
+                other.shieldBonus();
             }
         });
     }

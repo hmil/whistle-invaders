@@ -2,7 +2,9 @@ import { clamp } from "../utils";
 import { World } from "../world";
 import { Assets, Sprite } from "../assets";
 import { Entity } from "./entity";
-import { Missile } from "./missile";
+
+/** Scale the tiler relative to the hitbox to get a tight fit */
+const TILE_SCALING = 1.25;
 
 export class Asteroid extends Entity<'asteroid'> {
     public readonly type = 'asteroid';
@@ -27,7 +29,7 @@ export class Asteroid extends Entity<'asteroid'> {
         this.ySize = size;
         this.rotation = Math.random() * 2 * Math.PI;
 
-        this.sprite = { ...Assets.asteroids[1], width: size, height: size };
+        this.sprite = { ...Assets.asteroids[1], width: size * TILE_SCALING, height: size * TILE_SCALING };
 
         this.y = clamp(this.y, 0, World.HEIGHT - this.ySize);
     }
@@ -40,7 +42,7 @@ export class Asteroid extends Entity<'asteroid'> {
         ctx.save();
         ctx.translate(this.x + this.size / 2, this.y + this.size / 2);
         ctx.rotate(this.rotation);
-        Assets.drawSprite(this.sprite, -this.size / 2, -this.size / 2, ctx);
+        Assets.drawSprite(this.sprite, -this.sprite.width / 2, -this.sprite.height / 2, ctx);
         ctx.restore();
         super.draw(ctx);
     }

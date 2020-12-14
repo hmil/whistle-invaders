@@ -95,7 +95,7 @@ export abstract class Assets {
         return array[Math.floor(Math.random() * array.length)];
     }
     public static missileImage: Sprite;
-    public static shieldImage: Sprite;
+    public static shieldSprite: Sprite;
 
     private static spriteSheets: Map<string, HTMLImageElement> = new Map();
 
@@ -109,7 +109,7 @@ export abstract class Assets {
 
             Assets.missileImage = Assets.createSprite(IMAGE_LIST.MISSILE);
 
-            Assets.shieldImage = Assets.createSprite(IMAGE_LIST.SHIELD);
+            Assets.shieldSprite = Assets.createSprite(IMAGE_LIST.SHIELD);
             
             Assets.backgrounds1 = [
                 Assets.createSprite(IMAGE_LIST.PLANETS, 2 * raster, raster + raster / 2, 4*raster, 0),
