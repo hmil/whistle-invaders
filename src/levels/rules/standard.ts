@@ -39,6 +39,7 @@ export class StandardRules {
                     console.log('boom');
                     this.scene.removeEntity(evt.target);
                     this.scene.removeEntity(evt.missile);
+                    this.scene.addToScore(1);
             }
         });
     }

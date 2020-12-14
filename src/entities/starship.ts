@@ -12,6 +12,7 @@ export class Starship extends Entity<'starship'> {
     public xSize: number;
     public ySize: number;
     public throttle: number = 0;
+    public shield = 5;
 
     // Drag coefficient. Higher makes it go slower
     private drag = 0.90;
@@ -30,6 +31,16 @@ export class Starship extends Entity<'starship'> {
     public tick(deltaTime: number): void {
         this.speedY = (this.speedY + this.thrust * this.throttle) * this.drag;
         this.y = clamp(this.speedY * deltaTime + this.y, 0, World.HEIGHT - this.ySize);
+    }
+
+    public hit(): void {
+        this.shield -= 1;
+    }
+
+    public shieldBonus(): void {
+        if (this.shield < 5) {
+            this.shield++;
+        }
     }
 
     public draw(ctx: CanvasRenderingContext2D) {

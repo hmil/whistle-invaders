@@ -12,6 +12,7 @@ enum IMAGE_LIST {
     PLANETS = "images/planets.png",
     ELON = "images/ship.png",
     MISSILE = "images/spaceMissiles_001.png",
+    SHIELD = "images/spaceParts_041.png",
 }
 const raster = 64;
 const smallraster = 32;
@@ -86,11 +87,14 @@ export abstract class Assets {
         return array[Math.floor(Math.random() * array.length)];
     }
     public static missileImage: CanvasGraphObject;
+    public static shieldImage: CanvasGraphObject;
 
     public static init() {
         Assets.shipImage = Assets.createImage(IMAGE_LIST.SHIP);
 
         Assets.missileImage = Assets.createImage(IMAGE_LIST.MISSILE, 20, 35);
+
+        Assets.shieldImage = Assets.createImage(IMAGE_LIST.SHIELD, 30, 34);
         
         Assets.backgrounds1 = [
             Assets.createBackgrounds(backgrounds1[0][0], backgrounds1[0][1], 120, 100),

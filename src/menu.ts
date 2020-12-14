@@ -32,7 +32,7 @@ export class Menu {
             this.game.stop();
             setTimeout(() => {
                 this.showMenu();
-            }, 1000);
+            }, 500);
         });
     }
 
