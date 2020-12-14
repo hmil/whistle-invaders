@@ -11,7 +11,7 @@ export class AudioController {
 
     // TODO: Let the user calibrate these values
     /** Lowest control frequency */
-    private loFreq = 10;
+    private loFreq = 600;
     /** Highest control frequency */
     private hiFreq = 1200;
 
@@ -150,7 +150,7 @@ export class AudioController {
             this.currentFreq = ac;
             const delta = this.hiFreq - this.loFreq;
             const value = (ac - this.loFreq) / delta - 0.5;
-            this.currentOuptput = clamp(value * 2, -1, 1);
+            this.currentOuptput = -clamp(value * 2, -1, 1); // Invert such that high pitch goes up and low goes down
         }
 
         // if (ac == -1) {

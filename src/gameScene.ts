@@ -14,7 +14,7 @@ export class GameScene implements Tickable {
 
     public tick(deltaTime: number): void {
         
-        this.starship.thrustY = this.controls.getCurrentControls().engineThrottle;
+        this.starship.throttle = this.controls.getCurrentControls().engineThrottle;
 
         this.starship.tick(deltaTime);
         this.missiles.forEach(x => x.tick(deltaTime));

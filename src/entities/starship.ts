@@ -9,10 +9,12 @@ export class Starship implements Entity {
     public speedY: number;
     public xSize: number;
     public ySize: number;
-    public thrustY: number = 0;
+    public throttle: number = 0;
 
-
-    private drag = 0.95;
+    // Drag coefficient. Higher makes it go slower
+    private drag = 0.90;
+    // Power of the engine. Higher makes it go faster
+    private thrust = 0.05;
 
     constructor(x: number, y: number, speedY: number, xSize: number, ySzie: number) {
         this.x = x;
@@ -23,7 +25,7 @@ export class Starship implements Entity {
     }
 
     public tick(deltaTime: number): void {
-        this.speedY = (this.speedY + 0.1 * this.thrustY) * this.drag;
+        this.speedY = (this.speedY + this.thrust * this.throttle) * this.drag;
         this.y = clamp(this.speedY * deltaTime + this.y, 0, 1000); // TODO: WORLD_HEIGHT
     }
 
