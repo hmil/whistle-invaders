@@ -122,7 +122,6 @@ typings/
 
 # Nuxt.js build / generate output
 .nuxt
-dist
 
 # Gatsby files
 .cache/
@@ -274,7 +273,5 @@ fabric.properties
 
 # End of https://www.toptal.com/developers/gitignore/api/macos,code,webstorm,vim,node
 
-
-dist/
 deploy/*
 !deploy/Dockerfile
