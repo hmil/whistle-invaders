@@ -89,11 +89,7 @@ export class AudioController {
 
     private getUserMedia(constraints: MediaStreamConstraints, callback: NavigatorUserMediaSuccessCallback) {
         try {
-            navigator.getUserMedia = 
-                navigator.getUserMedia ||
-                (navigator as any).webkitGetUserMedia ||
-                (navigator as any).mozGetUserMedia;
-            navigator.getUserMedia(constraints, callback, (err) => {
+            navigator.mediaDevices.getUserMedia(constraints).then(callback, (err) => {
                 console.error(err);
             });
         } catch (e) {
